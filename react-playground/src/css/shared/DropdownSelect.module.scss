@@ -1,0 +1,71 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+.DropdownSelect {
+    position: relative;
+    width: auto;
+    max-width: 30rem;
+    height: auto;
+    border-radius: .5rem;
+    margin-bottom: 2rem;
+
+    &_labelGroup {
+        @include row_start_start;
+
+        &_label {
+            font-size: 1.6rem;
+            font-weight: 400;
+            color: map-get($map: $blueGreys, $key: 'headings');
+        }
+
+        &_requiredFlag {
+            font-size: 1.3rem;
+            color: map-get($map: $colors, $key: 'mainRed');
+        }
+    }
+
+
+
+    &_input {
+        width: 100%;
+        height: 4rem;
+        border: none;
+        outline: none;
+        padding: .5rem;
+        border-radius: .5rem;
+        font-size: 1.6rem;
+        font-weight: 400;
+        background-color: map-get($map: $colors, $key: 'mainGrey');
+        color: map-get($map: $colors, $key: 'mainBlackBlue');
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        cursor: pointer;
+
+        &:hover,
+        &:focus-within {
+            -webkit-box-shadow: map-get($map: $shadows, $key: 'mainOutline');
+            box-shadow: map-get($map: $shadows, $key: 'mainOutline');
+            cursor: pointer;
+        }
+
+        // &::-webkit-calendar-picker-indicator {
+        //     display: none;
+        // }
+    }
+
+    &_icon {
+        position: absolute;
+        display: block;
+        top: 35%;
+        right: .5rem;
+        width: 1.4rem;
+        height: 1.4rem;
+        fill: map-get($map: $blueGreys, $key: 'headings');
+
+        &:hover {
+            fill: map-get($map: $colors, $key: 'main');
+            cursor: pointer;
+        }
+    }
+}

@@ -1,0 +1,33 @@
+@import "./sass/variables";
+@import "./sass/mixins";
+
+.App {
+	max-width: 100vw;
+	height: 100vh;
+}
+.title {
+	font-size: 3rem;
+	font-weight: 800;
+	color: map-get($map: $colors, $key: "mainBlackBlue");
+}
+
+.subtitle {
+	font-size: 1.8rem;
+	font-weight: 300;
+	color: map-get($map: $blueGreys, $key: "headings");
+	margin-bottom: 4rem;
+}
+
+.btn {
+	padding: 1.2rem 2rem;
+	border: none;
+	outline: none;
+	border-radius: 0.5rem;
+	background-color: map-get($map: $colors, $key: "main");
+	color: #ffffff;
+	font-size: 1.4rem;
+	&:hover {
+		cursor: pointer;
+		box-shadow: map-get($map: $shadows, $key: "mainOutline");
+	}
+}

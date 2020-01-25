@@ -1,0 +1,16 @@
+@import '../../sass/mixins';
+@import '../../sass/variables';
+
+.CardLG {
+    width: 60rem;
+    height: 50rem;
+    border-radius: .5rem;
+    background-color: #ffffff;
+    -webkit-box-shadow: map-get($map: $shadows, $key: 'subtle');
+    box-shadow: map-get($map: $shadows, $key: 'subtle');
+
+    &_inner {
+        @include fill_container;
+        padding: 1rem;
+    }
+}

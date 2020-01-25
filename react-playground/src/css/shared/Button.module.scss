@@ -1,0 +1,33 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+
+.Button {
+  padding: 1.2rem 2.2rem;
+  border-radius: 0.5rem;
+  background-color: map-get($map: $colors, $key: "main");
+  color: #ffffff;
+  font-size: 1.4rem;
+  font-weight: 600;
+  border: none;
+  margin-top: 2rem;
+  @include row_center_all;
+
+  &:hover {
+    cursor: pointer;
+    -webkit-box-shadow: map-get($map: $shadows, $key: "subtle");
+    box-shadow: map-get($map: $shadows, $key: "subtle");
+  }
+
+  &_isDisabled {
+    @extend .Button;
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  &_icon {
+    width: 1.4rem;
+    height: 1.4rem;
+    fill: #ffffff;
+    margin-right: 0.5rem;
+  }
+}

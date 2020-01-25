@@ -1,0 +1,17 @@
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+.CardSM {
+    width: 40rem;
+    height: 20rem;
+    border-radius: 0.5rem;
+    margin: 1rem 0;
+    -webkit-box-shadow: map-get($map: $shadows, $key: "subtle");
+    box-shadow: map-get($map: $shadows, $key: "subtle");
+    background-color: #ffffff;
+
+    &_inner {
+        @include fill_container;
+        padding: 1rem;
+    }
+}
