@@ -1,3 +1,7 @@
+const dbBase = {
+  "db-meta": "Advantage"
+};
+
 /**
  * @description - A request utility for setting the request params for all CRUD request functions.
  * Covers requests for CRUD including: CREATE, READ, UPDATE, DELETE
@@ -5,64 +9,86 @@
  * @example requestParams.unscheduledTask
  */
 const requestParams = {
-	scheduledTask: {
-		"db-meta": "Advantage",
-		source: "AssessmentTrackingTask"
-	},
-	scheduledSubtask: {
-		"db-meta": "Advantage",
-		source: "AssessmentTrackingTaskShiftSubTask"
-	},
-	scheduledNote: {
-		"db-meta": "Advantage",
-		source: "AssessmentTrackingTaskNote"
-	},
-	scheduledShift: {
-		"db-meta": "Advantage",
-		source: "AssessmentTrackingTaskShift"
-	},
-	unscheduledTask: {
-		"db-meta": "Advantage",
-		source: "AssessmentUnscheduleTask"
-	},
-	unscheduledSubtask: {
-		"db-meta": "Advantage",
-		source: "AssessmentUnscheduleTaskShiftSubTask"
-	},
-	unscheduledNote: {
-		"db-meta": "Advantage",
-		source: "AssessmentUnscheduleTaskNote"
-	},
-	unscheduledShift: {
-		"db-meta": "Advantage",
-		source: "AssessmentUnscheduleTaskShift"
-	}
+  scheduledTask: {
+    ...dbBase,
+    source: "AssessmentTrackingTask"
+  },
+  scheduledSubtask: {
+    ...dbBase,
+    source: "AssessmentTrackingTaskShiftSubTask"
+  },
+  scheduledNote: {
+    ...dbBase,
+    source: "AssessmentTrackingTaskNote"
+  },
+  scheduledShift: {
+    ...dbBase,
+    source: "AssessmentTrackingTaskShift"
+  },
+  unscheduledTask: {
+    ...dbBase,
+    source: "AssessmentUnscheduleTask"
+  },
+  unscheduledSubtask: {
+    ...dbBase,
+    source: "AssessmentUnscheduleTaskShiftSubTask"
+  },
+  unscheduledNote: {
+    ...dbBase,
+    source: "AssessmentUnscheduleTaskNote"
+  },
+  unscheduledShift: {
+    ...dbBase,
+    source: "AssessmentUnscheduleTaskShift"
+  },
+  genericCount: {
+    residents: {
+      ...dbBase,
+      source: "Residents"
+    },
+    scheduledTasks: {
+      ...dbBase,
+      source: "AssessmentTrackingTask"
+    },
+    unscheduledTasks: {
+      ...dbBase,
+      source: "AssessmentUnscheduleTask"
+    },
+    adls: {
+      ...dbBase,
+      source: "AssessmentCategory"
+    }
+  }
 };
 // SCHEDULED TASK - RELATED
 const {
-	scheduledTask,
-	scheduledSubtask,
-	scheduledNote,
-	scheduledShift
+  scheduledTask,
+  scheduledSubtask,
+  scheduledNote,
+  scheduledShift
 } = requestParams;
 
 // UNSCHEDULED TASK - RELATED
 const {
-	unscheduledTask,
-	unscheduledSubtask,
-	unscheduledNote,
-	unscheduledShift
+  unscheduledTask,
+  unscheduledSubtask,
+  unscheduledNote,
+  unscheduledShift
 } = requestParams;
+
+const { genericCount } = requestParams;
 
 // SCHEDULED TASK - RELATED
 export { scheduledTask, scheduledSubtask, scheduledNote, scheduledShift };
 
 // UNSCHEDULED TASK - RELATED
 export {
-	unscheduledTask,
-	unscheduledSubtask,
-	unscheduledNote,
-	unscheduledShift
+  unscheduledTask,
+  unscheduledSubtask,
+  unscheduledNote,
+  unscheduledShift
 };
+
+export { genericCount };
 
 export { requestParams };

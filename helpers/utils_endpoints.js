@@ -188,6 +188,9 @@ const endpoints = {
       note2: "Advantage/CountAssessmentUnscheduleTaskNote2"
     }
   },
+  pastDue: {
+    get: "Community/GetCommunityPastDueTasks"
+  },
   reassess: {
     updateSingle: "Advantage/UpdateAssessmentTrackingReassess",
     updateMany: "Advantage/UpdateAssessmentTrackingReassessMany"
@@ -214,6 +217,7 @@ const {
   assessmentTracking,
   scheduledTasks,
   unscheduledTasks,
+  pastDue,
   reassess,
   user,
   reports
@@ -236,6 +240,7 @@ export {
   assessmentTracking,
   scheduledTasks,
   unscheduledTasks,
+  pastDue,
   reassess,
   user,
   reports
