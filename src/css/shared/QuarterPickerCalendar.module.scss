@@ -1,0 +1,83 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+
+.QuarterPickerCalendar {
+	position: absolute;
+	top: 4rem;
+	left: 0;
+	width: 30rem;
+	height: 25rem;
+	padding: 1rem;
+	background-color: #ffffff;
+	border-radius: 0.5rem;
+	box-shadow: map-get($map: $shadows, $key: "raised");
+
+	&_top {
+		width: 100%;
+		@include row_between_center;
+		margin-bottom: 2rem;
+
+		&_heading {
+			@include row_start_center;
+
+			&_quarter {
+				font-size: 1.8rem;
+				font-weight: 700;
+				color: map-get($map: $colors, $key: "mainBlackBlue");
+				margin-right: 0.5rem;
+			}
+			&_year {
+				font-size: 1.6rem;
+				font-weight: 600;
+				color: map-get($map: $blueGreys, $key: "subheadings");
+			}
+		}
+		&_controls {
+			@include row_start_center;
+
+			&_icon {
+				width: 2.5rem;
+				height: 2.5rem;
+				fill: map-get($map: $blueGreys, $key: "headings");
+				&:hover {
+					cursor: pointer;
+					fill: map-get($map: $colors, $key: "main");
+				}
+			}
+		}
+	}
+	&_calendar {
+		width: 100%;
+		height: calc(85% - 5rem);
+		display: grid;
+		grid-template-columns: repeat(2, 50%);
+		grid-template-rows: repeat(2, 50%);
+		-webkit-box-pack: center;
+		justify-content: center;
+		align-content: center;
+		grid-column-gap: 0.5rem;
+		grid-row-gap: 0.5rem;
+	}
+
+	&_today {
+		width: 100%;
+		height: 4rem;
+		@include row_center_all;
+
+		&_btn {
+			background-color: transparent;
+			font-size: 1.4rem;
+			color: map-get($map: $colors, $key: "main");
+			letter-spacing: 0.2rem;
+			border: none;
+			outline: none;
+			-webkit-transition: all 0.4s ease-in-out;
+			transition: all 0.4s ease-in-out;
+
+			&:hover {
+				cursor: pointer;
+				color: map-get($map: $colors, $key: "mainBlue");
+			}
+		}
+	}
+}

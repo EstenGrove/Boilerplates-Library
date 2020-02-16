@@ -1,0 +1,33 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+
+.QuarterPickerQuarter {
+	width: 100%;
+	height: 100%;
+	@include col_center_all;
+	border: 1px solid #ccc;
+	border-radius: 0.5rem;
+
+	&:hover {
+		cursor: pointer;
+		box-shadow: map-get($map: $shadows, $key: "mainOutline");
+	}
+
+	&_quarter {
+		font-size: 1.4rem;
+		font-weight: 600;
+		color: map-get($map: $blueGreys, $key: "headings");
+	}
+
+	&_range {
+		color: map-get($map: $colors, $key: "mainBlackBlue");
+		font-size: 1rem;
+		font-weight: 300;
+	}
+
+	&_isSelected {
+		@extend .QuarterPickerQuarter;
+		background-color: map-get($map: $flatColors, $key: "main");
+		color: #ffffff;
+	}
+}

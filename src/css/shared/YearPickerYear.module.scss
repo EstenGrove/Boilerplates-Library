@@ -1,0 +1,26 @@
+@import "../../sass/mixins";
+@import "../../sass/variables";
+
+.YearPickerYear {
+	width: 100%;
+	height: 100%;
+	border: 1px solid #ccc;
+	border-radius: 0.5rem;
+	@include col_center_all;
+
+	&_year {
+		font-size: 1.4rem;
+		font-weight: 700;
+		color: map-get($map: $colors, $key: "mainBlackBlue");
+		padding: 0.2rem 0.5rem;
+	}
+	&:hover {
+		cursor: pointer;
+		box-shadow: map-get($map: $shadows, $key: "mainOutline");
+	}
+	&_isSelected {
+		@extend .YearPickerYear;
+		background-color: map-get($map: $flatColors, $key: "main");
+		color: #ffffff;
+	}
+}

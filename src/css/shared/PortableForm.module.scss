@@ -1,0 +1,38 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+
+.PortableForm {
+	position: relative;
+	width: 100%;
+	height: auto;
+	background-color: #ffffff;
+	border-radius: 0.5rem;
+	padding: 2rem;
+
+	&_title {
+		font-size: 1.8rem;
+		font-weight: 800;
+		letter-spacing: 0.1em;
+		color: map-get($map: $colors, $key: "mainBlackBlue");
+		margin-bottom: 3rem;
+	}
+
+	&_fieldset {
+		@include fill_container;
+		border: none;
+
+		&:disabled {
+			opacity: 0.4;
+		}
+	}
+	&_isDisabled {
+		position: absolute;
+		display: block;
+		top: 1rem;
+		right: 1rem;
+		color: map-get($map: $colors, $key: "mainBlue");
+		&:hover {
+			cursor: pointer;
+		}
+	}
+}

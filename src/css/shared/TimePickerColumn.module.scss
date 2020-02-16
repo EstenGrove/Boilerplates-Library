@@ -1,0 +1,14 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+
+.TimePickerColumn {
+	width: 33.33%;
+	height: 100%;
+	@include row_center_start;
+	overflow-y: auto;
+
+	&_inner {
+		width: 100%;
+		height: auto;
+	}
+}

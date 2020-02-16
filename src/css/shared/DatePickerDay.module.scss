@@ -1,0 +1,47 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+
+.DatePickerDay {
+	width: 4rem;
+	height: 4rem;
+	padding: 0.6rem;
+	border-radius: 50%;
+	font-family: map-get($map: $fonts, $key: "tertiarySans");
+	&:hover {
+		border: 1px solid map-get($map: $flatColors, $key: "main");
+		cursor: pointer;
+	}
+
+	&_entry {
+		@include fill_container;
+		@include row_center_all;
+		font-size: 1.2rem;
+		font-weight: 400;
+	}
+	&_isToday {
+		@extend .DatePickerDay;
+		background-color: map-get($map: $flatColors, $key: "main");
+		border-radius: 50%;
+		color: #ffffff;
+		&_entry {
+			@extend .DatePickerDay_entry;
+		}
+	}
+	&_isSelected {
+		@extend .DatePickerDay;
+		background-color: map-get($map: $flatColors, $key: "mainBlue");
+		border-radius: 50%;
+		&_entry {
+			@extend .DatePickerDay_entry;
+		}
+	}
+	&_isTodayAndSelected {
+		@extend .DatePickerDay;
+		background-color: map-get($map: $flatColors, $key: "mainBlue");
+		border-radius: 50%;
+		color: #ffffff;
+		&_entry {
+			@extend .DatePickerDay_entry;
+		}
+	}
+}

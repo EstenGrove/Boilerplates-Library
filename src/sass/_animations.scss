@@ -1,6 +1,7 @@
 @import "./mixins";
 @import "./variables";
 
+// PING - SAME AS PULSE //
 .ping {
 	-webkit-animation: ping 0.8s ease-in-out infinite both;
 	animation: ping 0.8s ease-in-out infinite both;
@@ -46,6 +47,215 @@
 	}
 }
 
+// CLONE OF ".ping" CLASS EXTENDED
 @mixin pulse {
 	@extend .ping;
+}
+
+// SLIDE IN FROM LEFT //
+.slide-in-right {
+	-webkit-animation: slide-in-right 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+		both;
+	animation: slide-in-right 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+@-webkit-keyframes slide-in-right {
+	0% {
+		-webkit-transform: translateX(1000px);
+		transform: translateX(1000px);
+		opacity: 0;
+	}
+	100% {
+		-webkit-transform: translateX(0);
+		transform: translateX(0);
+		opacity: 1;
+	}
+}
+@keyframes slide-in-right {
+	0% {
+		-webkit-transform: translateX(1000px);
+		transform: translateX(1000px);
+		opacity: 0;
+	}
+	100% {
+		-webkit-transform: translateX(0);
+		transform: translateX(0);
+		opacity: 1;
+	}
+}
+
+@mixin slide_from_right {
+	@extend .slide-in-right;
+}
+
+// SLIDE IN FROM LEFT //
+.slide-in-left {
+	-webkit-animation: slide-in-left 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+		both;
+	animation: slide-in-left 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+@-webkit-keyframes slide-in-left {
+	0% {
+		-webkit-transform: translateX(-1000px);
+		transform: translateX(-1000px);
+		opacity: 0;
+	}
+	100% {
+		-webkit-transform: translateX(0);
+		transform: translateX(0);
+		opacity: 1;
+	}
+}
+@keyframes slide-in-left {
+	0% {
+		-webkit-transform: translateX(-1000px);
+		transform: translateX(-1000px);
+		opacity: 0;
+	}
+	100% {
+		-webkit-transform: translateX(0);
+		transform: translateX(0);
+		opacity: 1;
+	}
+}
+
+// SLIDE IN FROM TOP //
+.slide-in-top {
+	-webkit-animation: slide-in-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+	animation: slide-in-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+@-webkit-keyframes slide-in-top {
+	0% {
+		-webkit-transform: translateY(-1000px);
+		transform: translateY(-1000px);
+		opacity: 0;
+	}
+	100% {
+		-webkit-transform: translateY(0);
+		transform: translateY(0);
+		opacity: 1;
+	}
+}
+@keyframes slide-in-top {
+	0% {
+		-webkit-transform: translateY(-1000px);
+		transform: translateY(-1000px);
+		opacity: 0;
+	}
+	100% {
+		-webkit-transform: translateY(0);
+		transform: translateY(0);
+		opacity: 1;
+	}
+}
+
+.slide-in-bottom {
+	-webkit-animation: slide-in-bottom 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+		both;
+	animation: slide-in-bottom 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+@-webkit-keyframes slide-in-bottom {
+	0% {
+		-webkit-transform: translateY(1000px);
+		transform: translateY(1000px);
+		opacity: 0;
+	}
+	100% {
+		-webkit-transform: translateY(0);
+		transform: translateY(0);
+		opacity: 1;
+	}
+}
+@keyframes slide-in-bottom {
+	0% {
+		-webkit-transform: translateY(1000px);
+		transform: translateY(1000px);
+		opacity: 0;
+	}
+	100% {
+		-webkit-transform: translateY(0);
+		transform: translateY(0);
+		opacity: 1;
+	}
+}
+
+// FADE IN //
+.fade-in {
+	-webkit-animation: fade-in 1.6s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+	animation: fade-in 1.6s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+}
+
+@-webkit-keyframes fade-in {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+@keyframes fade-in {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+.fade-in-right {
+	-webkit-animation: fade-in-right 1.2s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+	animation: fade-in-right 1.2s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+}
+@-webkit-keyframes fade-in-right {
+	0% {
+		-webkit-transform: translateX(50px);
+		transform: translateX(50px);
+		opacity: 0;
+	}
+	100% {
+		-webkit-transform: translateX(0);
+		transform: translateX(0);
+		opacity: 1;
+	}
+}
+@keyframes fade-in-right {
+	0% {
+		-webkit-transform: translateX(50px);
+		transform: translateX(50px);
+		opacity: 0;
+	}
+	100% {
+		-webkit-transform: translateX(0);
+		transform: translateX(0);
+		opacity: 1;
+	}
+}
+
+// PULSING ANIMATION //
+@mixin pulse {
+	@extend .ping;
+}
+// SLIDE IN FROM <DIRECTORY> //
+@mixin slide_from_right {
+	@extend .slide-in-right;
+}
+@mixin slide_from_left {
+	@extend .slide-in-left;
+}
+@mixin slide_from_top {
+	@extend .slide-in-top;
+}
+@mixin slide_from_bottom {
+	@extend .slide-in-bottom;
+}
+
+// FADE IN(S) ANIMATIONS //
+@mixin fade_in {
+	@extend .fade-in;
+}
+@mixin fade_in_from_right {
+	@extend .fade-in-right;
 }

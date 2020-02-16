@@ -1,0 +1,203 @@
+@import "../../sass/mixins";
+@import "../../sass/variables";
+@import "../../sass/animations";
+
+.Alert {
+	position: fixed;
+	top: 8rem;
+	right: 2rem;
+	width: -webkit-max-content;
+	width: -moz-max-content;
+	width: max-content;
+	height: -webkit-max-content;
+	height: -moz-max-content;
+	height: max-content;
+	border-radius: 0.5rem;
+	border: 1px solid #ccc;
+	background-color: #ffffff;
+	margin-bottom: 2rem;
+	@include row_start;
+	box-shadow: map-get($map: $shadows, $key: "subtle");
+	@include slide_from_right;
+	z-index: 50;
+
+	&_XSM {
+		@extend .Alert;
+		width: 16rem;
+		height: 4rem;
+	}
+	&_SM {
+		@extend .Alert;
+		width: 16rem;
+		height: 4rem;
+	}
+	&_MD {
+		@extend .Alert;
+		width: 24rem;
+		height: 6rem;
+	}
+	&_LG {
+		@extend .Alert;
+		width: 30rem;
+		height: 7rem;
+	}
+	&_XLG {
+		@extend .Alert;
+		width: 36rem;
+		height: 8rem;
+	}
+
+	&_left {
+		width: 20%;
+		height: 100%;
+		padding: 0.3rem;
+		border-radius: 0.5rem 0 0 0.5rem;
+		justify-self: flex-start;
+	}
+
+	&_group {
+		width: 80%;
+		height: 100%;
+		@include row_start_center;
+	}
+
+	&_close {
+		width: max-content;
+		height: max-content;
+		padding: 0.2rem;
+
+		&_icon {
+			width: 1.3rem;
+			height: 1.3rem;
+			fill: map-get($map: $colors, $key: "mainRed");
+			opacity: 0.6;
+			&:hover {
+				cursor: pointer;
+				opacity: 1;
+			}
+		}
+	}
+}
+
+.AlertHeadings {
+	width: 100%;
+	height: 100%;
+	padding-left: 0.5rem;
+	@include col_center_start;
+
+	// HEADINGS
+	&_heading {
+		color: map-get($map: $blueGreys, $key: "headings");
+
+		&_XSM {
+			@extend .AlertHeadings_heading;
+			font-size: 1.2rem;
+			font-weight: 700;
+		}
+		&_SM {
+			@extend .AlertHeadings_heading;
+			font-size: 1.4rem;
+			font-weight: 700;
+		}
+		&_MD {
+			@extend .AlertHeadings_heading;
+			font-size: 1.4rem;
+			font-weight: 700;
+		}
+		&_LG {
+			@extend .AlertHeadings_heading;
+			font-size: 1.6rem;
+			font-weight: 700;
+		}
+		&_XLG {
+			@extend .AlertHeadings_heading;
+			font-size: 2rem;
+			font-weight: 700;
+		}
+	}
+	// SUBHEADINGS
+	&_subheading {
+		color: map-get($map: $blueGreys, $key: "subheadings");
+
+		&_XSM {
+			@extend .AlertHeadings_subheading;
+			font-size: 0.8rem;
+			font-weight: 400;
+		}
+		&_SM {
+			@extend .AlertHeadings_subheading;
+			font-size: 1rem;
+			font-weight: 400;
+		}
+		&_MD {
+			@extend .AlertHeadings_subheading;
+			font-size: 1.1rem;
+			font-weight: 400;
+		}
+		&_LG {
+			@extend .AlertHeadings_subheading;
+			font-size: 1.3rem;
+			font-weight: 400;
+		}
+		&_XLG {
+			@extend .AlertHeadings_subheading;
+			font-size: 1.5rem;
+			font-weight: 400;
+		}
+	}
+}
+
+.AlertIcon {
+	width: 100%;
+	height: 100%;
+	@include row_center_all;
+
+	&_icon {
+		opacity: 0.8;
+
+		&_XSM {
+			@extend .AlertIcon_icon;
+			width: 1.4rem;
+			height: 1.4rem;
+		}
+		&_SM {
+			@extend .AlertIcon_icon;
+			width: 1.6rem;
+			height: 1.6rem;
+		}
+		&_MD {
+			@extend .AlertIcon_icon;
+			width: 2.2rem;
+			height: 2.2rem;
+		}
+		&_LG {
+			@extend .AlertIcon_icon;
+			width: 2.5rem;
+			height: 2.5rem;
+		}
+		&_XLG {
+			@extend .AlertIcon_icon;
+			width: 3rem;
+			height: 3rem;
+		}
+	}
+}
+
+// PLACE ALERT ON PAGE - NOT CURRENT IN USE!!! //
+.top_left {
+	top: 6rem;
+	left: 2rem;
+}
+.top_right {
+	top: 6rem;
+	right: 2rem;
+}
+
+.bottom_right {
+	bottom: 6rem;
+	right: 2rem;
+}
+.bottom_left {
+	bottom: 6rem;
+	left: 2rem;
+}

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { isEmptyObj, isEmptyVal } from "../helpers/utils_types";
 
 const initialState = {
 	values: {},
@@ -8,9 +9,7 @@ const initialState = {
 
 export const useForm = ({ ...vals }) => {
 	const [formState, setFormState] = useState({
-		values: {
-			...vals
-		},
+		values: { ...vals },
 		touched: {},
 		isSubmitting: false
 	});
@@ -26,13 +25,18 @@ export const useForm = ({ ...vals }) => {
 	};
 
 	const handleFocus = inputRef => {
+		if (isEmptyObj(inputRef)) return;
+		if (isEmptyVal(inputRef?.current)) return;
 		return inputRef.current.focus();
 	};
 
 	const handleReset = e => {
 		e.preventDefault();
 		e.persist();
-		return setFormState(initialState);
+		return setFormState({
+			...formState,
+			values: { ...vals }
+		});
 	};
 
 	const handleChange = e => {

@@ -432,6 +432,31 @@ const iconsReducer = type => {
 	}
 };
 
+/////////////////////////////
+/////// ALERT HELPERS ///////
+/////////////////////////////
+
+const BORDERS = {
+	ERROR: `5px solid ${themeColors.main.red}`,
+	SUCCESS: `5px solid ${themeColors.main.green}`,
+	WARN: `5px solid ${themeColors.main.altYellow}`,
+	INFO: `5px solid ${themeColors.main.main}`
+};
+
+const ICONS = {
+	ERROR: "exclamation-outline",
+	WARN: "warning",
+	SUCCESS: "checkmark-outline",
+	INFO: "information-outline"
+};
+
+const FILLS = {
+	SUCCESS: themeColors.main.green,
+	WARN: themeColors.main.altYellow,
+	INFO: themeColors.main.main,
+	ERROR: themeColors.main.red
+};
+
 export {
 	themeColors,
 	adlColors,
@@ -447,3 +472,6 @@ export {
 	statusReducer,
 	iconsReducer
 };
+
+// ALERT HELPERS //
+export { BORDERS, ICONS, FILLS };

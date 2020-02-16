@@ -1,0 +1,25 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+
+.MonthPickerMonth {
+	width: 100%;
+	height: 100%;
+	padding: 0.5rem 1rem;
+	@include row_center_all;
+	border: 1px solid #ccc;
+	border-radius: 0.5rem;
+	&:hover {
+		cursor: pointer;
+		box-shadow: map-get($map: $shadows, $key: "mainOutline");
+	}
+
+	&_month {
+		font-size: 1.4rem;
+	}
+
+	&_isSelected {
+		@extend .MonthPickerMonth;
+		background-color: map-get($map: $flatColors, $key: "main");
+		color: #ffffff;
+	}
+}
