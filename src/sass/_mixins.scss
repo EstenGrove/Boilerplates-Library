@@ -434,3 +434,13 @@
 	grid-template-columns: repeat(auto-fit, calc(100% / 7));
 	grid-template-rows: repeat(4, auto-fill);
 }
+
+// "FOCUS MODE" STYLES FOR DATE PICKER COMPONENTS
+@mixin focusMode {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	box-sizing: map-get($map: $shadows, $key: "focusMode");
+	box-shadow: 2px 9px 217px 34px rgba(0, 0, 0, 0.52);
+	z-index: 50;
+}
