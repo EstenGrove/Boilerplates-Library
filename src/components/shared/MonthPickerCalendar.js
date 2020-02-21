@@ -3,11 +3,11 @@ import { PropTypes } from "prop-types";
 import { useOutsideClick } from "../../utils/useOutsideClick";
 import { isEmptyArray } from "../../helpers/utils_types";
 import { format } from "date-fns";
-import styles from "../../css/shared/MonthCalendar.module.scss";
+import styles from "../../css/shared/MonthPickerCalendar.module.scss";
 import sprite from "../../assets/carets-arrows.svg";
 import MonthPickerMonth from "./MonthPickerMonth";
 
-const MonthCalendar = ({
+const MonthPickerCalendar = ({
 	months,
 	currentMonth,
 	currentYear,
@@ -36,31 +36,33 @@ const MonthCalendar = ({
 	}, [closeCalendar, isOutside]);
 
 	return (
-		<aside className={styles.MonthCalendar} ref={monthCalRef}>
-			<section className={styles.MonthCalendar_top}>
-				<div className={styles.MonthCalendar_top_heading}>
-					<h2 className={styles.MonthCalendar_top_heading_month}>
+		<aside className={styles.MonthPickerCalendar} ref={monthCalRef}>
+			<section className={styles.MonthPickerCalendar_top}>
+				<div className={styles.MonthPickerCalendar_top_heading}>
+					<h2 className={styles.MonthPickerCalendar_top_heading_month}>
 						{format(currentMonth, "MMMM")}
 					</h2>
-					<p className={styles.MonthCalendar_top_heading_year}>{currentYear}</p>
+					<p className={styles.MonthPickerCalendar_top_heading_year}>
+						{currentYear}
+					</p>
 				</div>
 
-				<div className={styles.MonthCalendar_top_controls}>
+				<div className={styles.MonthPickerCalendar_top_controls}>
 					<svg
-						className={styles.MonthCalendar_top_controls_icon}
+						className={styles.MonthPickerCalendar_top_controls_icon}
 						onClick={getPrevMonth}
 					>
 						<use xlinkHref={`${sprite}#icon-chevron-small-down`}></use>
 					</svg>
 					<svg
-						className={styles.MonthCalendar_top_controls_icon}
+						className={styles.MonthPickerCalendar_top_controls_icon}
 						onClick={getNextMonth}
 					>
 						<use xlinkHref={`${sprite}#icon-chevron-small-up`}></use>
 					</svg>
 				</div>
 			</section>
-			<section className={styles.MonthCalendar_calendar}>
+			<section className={styles.MonthPickerCalendar_calendar}>
 				{!isEmptyArray(months) &&
 					months.map((month, index) => (
 						<MonthPickerMonth
@@ -71,9 +73,9 @@ const MonthCalendar = ({
 						/>
 					))}
 			</section>
-			<section className={styles.MonthCalendar_today}>
+			<section className={styles.MonthPickerCalendar_today}>
 				<button
-					className={styles.MonthCalendar_today_btn}
+					className={styles.MonthPickerCalendar_today_btn}
 					onClick={jumpToToday}
 				>
 					Today
@@ -83,11 +85,11 @@ const MonthCalendar = ({
 	);
 };
 
-export default MonthCalendar;
+export default MonthPickerCalendar;
 
-MonthCalendar.defaultProps = {};
+MonthPickerCalendar.defaultProps = {};
 
-MonthCalendar.propTypes = {
+MonthPickerCalendar.propTypes = {
 	months: PropTypes.arrayOf(PropTypes.string).isRequired,
 	currentMonth: PropTypes.instanceOf(Date).isRequired,
 	currentYear: PropTypes.number.isRequired,

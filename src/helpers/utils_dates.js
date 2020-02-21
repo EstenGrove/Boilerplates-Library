@@ -94,6 +94,13 @@ const checkForPastDue = task => {
 		: formatDifferenceInDays(task.TrackDate);
 };
 
+const formatNum = num => {
+	if (num < 2 && num.length !== 2) {
+		return `0${num}`;
+	}
+	return num.toString();
+};
+
 export {
 	formatDate,
 	formatTime,
@@ -104,5 +111,6 @@ export {
 	matchDayOfWeek,
 	matchDayAndDate,
 	getZeroBasedDayOfWeek,
-	checkForPastDue
+	checkForPastDue,
+	formatNum
 };

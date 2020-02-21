@@ -17,6 +17,8 @@ import {
 	getQuarter
 } from "date-fns";
 
+export const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
 // MONTH HELPERS
 export const months = [
 	"Jan",

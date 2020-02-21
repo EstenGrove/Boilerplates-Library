@@ -5,7 +5,7 @@ import { isEmptyVal } from "../../helpers/utils_types";
 import { format } from "date-fns";
 import styles from "../../css/shared/MonthPicker.module.scss";
 import sprite from "../../assets/icon-bar.svg";
-import MonthCalendar from "./MonthCalendar";
+import MonthPickerCalendar from "./MonthPickerCalendar";
 
 const MonthPicker = ({ label, name, id, placeholder, val, handleMonth }) => {
 	const {
@@ -82,7 +82,7 @@ const MonthPicker = ({ label, name, id, placeholder, val, handleMonth }) => {
 			</svg>
 
 			{showCalendar && (
-				<MonthCalendar
+				<MonthPickerCalendar
 					months={months}
 					currentMonth={month.monthStart}
 					currentYear={year}
