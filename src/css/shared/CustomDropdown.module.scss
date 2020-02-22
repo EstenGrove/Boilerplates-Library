@@ -1,0 +1,98 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+
+.CustomDropdown {
+	width: -webkit-max-content;
+	width: -moz-max-content;
+	width: max-content;
+	height: -webkit-max-content;
+	height: -moz-max-content;
+	height: max-content;
+
+	&_label {
+		font-size: 1.5rem;
+		font-weight: 500;
+		color: map-get($map: $blueGreys, $key: "subheadings");
+	}
+	&_inputWrapper {
+		position: relative;
+		width: 20rem;
+		height: auto;
+
+		&_input {
+			width: 100%;
+			height: 3.5rem;
+			padding-left: 0.5rem;
+			font-size: 1.6rem;
+			font-weight: 500;
+			border-radius: 0.5rem;
+			border: 1px solid #ccc;
+			color: map-get($map: $colors, $key: "mainBlackBlue");
+			outline: none;
+
+			&:hover,
+			&:focus {
+				cursor: pointer;
+				box-shadow: map-get($map: $shadows, $key: "mainOutline");
+			}
+		}
+	}
+	&_options {
+		position: absolute;
+		top: 4rem;
+		left: 0;
+		width: 25rem;
+		height: 30rem;
+		border-radius: 0.5rem;
+		padding: 2rem 0;
+		overflow-y: auto;
+		background-color: #ffffff;
+		box-shadow: map-get($map: $shadows, $key: "medSubtle");
+
+		&_list {
+			@include fill_container;
+			list-style: none;
+
+			&_item {
+				width: 100%;
+				padding: 1.2rem 1rem;
+				font-size: 1.4rem;
+				font-weight: 500;
+				color: map-get($map: $blueGreys, $key: "headings");
+				margin-bottom: 1.5rem;
+				outline: none;
+
+				&:hover {
+					cursor: pointer;
+					color: map-get($map: $colors, $key: "main");
+					background-color: map-get($map: $greys, $key: "chalk");
+				}
+				&:focus,
+				&:focus-visible,
+				&:focus-within {
+					cursor: pointer;
+					color: map-get($map: $colors, $key: "main");
+					background-color: map-get($map: $greys, $key: "chalk");
+				}
+				&_focus {
+					@extend .CustomDropdown_options_list_item;
+					cursor: pointer;
+					color: map-get($map: $colors, $key: "main");
+					background-color: map-get($map: $greys, $key: "chalk");
+				}
+			}
+		}
+	}
+	&_closeIcon {
+		position: absolute;
+		bottom: 1rem;
+		right: 1rem;
+		width: 1.6rem;
+		height: 1.6rem;
+		fill: map-get($map: $blueGreys, $key: "headings");
+		&:hover {
+			cursor: pointer;
+			fill: map-get($map: $colors, $key: "mainRed");
+		}
+	}
+}
