@@ -35,7 +35,12 @@ const themeColors = {
 		green: "hsla(144, 69%, 63%, .4)",
 		red: "hsla(330, 100%, 41%, .22)",
 		yellow: "hsla(60, 92%, 71%, .7)",
-		orange: "hsla(11, 100%, 75%, .4)"
+		orange: "hsla(11, 100%, 75%, .4)",
+		violet: "hsla(292, 65%, 68%, .3)",
+		teal: "hsla(186, 100%, 50%, .4)",
+		neonGreen: "hsla(151, 100%, 45%, .4)",
+		blackBlue: "hsla(220, 18%, 20%, .4)",
+		altRed: "hsla(352, 70%, 60%, .3)"
 	},
 	blueGreys: {
 		main: "hsla(214, 32%, 91%, 1)",
@@ -457,6 +462,35 @@ const FILLS = {
 	ERROR: themeColors.main.red
 };
 
+/////////////////////////////////////
+// DIALOG COMPONENT - ICON HELPERS //
+/////////////////////////////////////
+const DIALOG_ICONS = {
+	ERROR: "exclamation-outline",
+	WARN: "warningreport_problem",
+	WARN2: "warning",
+	SUCCESS: "check_circle",
+	INFO: "info-with-circle",
+	INFO2: "information-outline",
+	PRINT: "local_print_shopprint",
+	SAVE: "save11",
+	CHECKMARK: "check_circle",
+	SIGNATURE: "gesture",
+	ALARM: "access_alarmalarm",
+	EDIT: "createmode_editedit",
+	HELP: "help-with-circle",
+	MEDS: "local_hospital",
+	CALENDAR: "event_note",
+	CALENDAR_DONE: "event_available",
+	CALENDAR_MISSED: "event_busy",
+	USER: "account_circle",
+	SETTINGS: "settings1",
+	CHART: "chart-bar",
+	ALERT: "notifications1",
+	SHOW: "view-show",
+	IMAGES: "images"
+};
+
 export {
 	themeColors,
 	adlColors,
@@ -475,3 +509,5 @@ export {
 
 // ALERT HELPERS //
 export { BORDERS, ICONS, FILLS };
+
+export { DIALOG_ICONS };
