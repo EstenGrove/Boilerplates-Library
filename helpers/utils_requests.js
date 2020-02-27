@@ -1,5 +1,33 @@
+import { test } from "./utils_env";
+import { generic } from "./utils_endpoints";
 import { getResidentsByUserEmail } from "./utils_residents";
 import { getUserProfileByEmail } from "./utils_user";
+
+///////////////////////////////////////
+/////// GENERIC REQUEST HELPERS ///////
+///////////////////////////////////////
+
+const genericGet = async (token, params) => {
+	let url = test.base + generic.get;
+	url += "?" + new URLSearchParams(params);
+
+	try {
+		const request = await fetch(url, {
+			method: "GET",
+			headers: {
+				Authorization: "Basic " + btoa(test.user + ":" + test.password),
+				SecurityToken: token,
+				"Content-Type": "application/json"
+			}
+		});
+		const response = await request.json();
+		console.log("✅ Success! ", response.Data);
+		return response.Data;
+	} catch (err) {
+		console.log("❌ ERROR: 'getFacilityList' had an error", err);
+		return err.message;
+	}
+};
 
 const getInitialResource = async (auth, state, dispatch) => {
 	const { token, username } = auth;
@@ -45,5 +73,8 @@ const syncResourceToState = (resource, state, dispatch) => {
 		});
 	}
 };
+
+// GENERIC REQUEST HELPERS //
+export { genericGet };
 
 export { getInitialResource, syncResourceToState };

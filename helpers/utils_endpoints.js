@@ -201,7 +201,21 @@ const endpoints = {
 	},
 	reports: {
 		getInfo: "Reports/GetReportInformation",
-		executeReport: "Reports/ExecuteReport"
+		executeReport: "Reports/ExecuteReport",
+		executeReportAsync: "Reports/ExecuteReportAsync"
+	},
+	facility: {
+		get: {
+			facilityList: "Advantage/GetFacility"
+		},
+		save: {
+			facility: "Advantage/SaveFacility",
+			facilityMany: "Advantage/SaveFacilityMany"
+		},
+		update: {
+			facility: "Advantage/UpdateFacility",
+			facilityMany: "Advantage/UpdateFacilityMany"
+		}
 	}
 };
 
@@ -220,7 +234,8 @@ const {
 	pastDue,
 	reassess,
 	user,
-	reports
+	reports,
+	facility
 } = endpoints;
 
 export {
@@ -238,5 +253,6 @@ export {
 	pastDue,
 	reassess,
 	user,
-	reports
+	reports,
+	facility
 };
