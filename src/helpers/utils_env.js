@@ -1,6 +1,6 @@
 const REACT_APP_ENV_AUTH = {
   development: {
-    base: "http://localhost:5500/alaservices/v1/",
+    base: "https://localhost:5500/alaservices/v1/",
     user: "x-dev-user",
     password: "J99Hf2i3eY#2pqBj234tD2@H$%"
   },
@@ -10,7 +10,7 @@ const REACT_APP_ENV_AUTH = {
     password: "7U*hg%53^D*@bq-d@k8f2L$^fd4j"
   },
   testing: {
-    base: "http://apitest.aladvantage.com/alaservices/v1/",
+    base: "https://apitest.aladvantage.com/alaservices/v1/",
     user: "x-test-user",
     password: "M9hf^%2HHf3^$(sn@Kd23p#hsq"
   }
