@@ -111,3 +111,10 @@ const constructReportURL = (token, urlPath) => {
 	url += "?securityToken=" + token;
 	return url;
 };
+
+
+// REPORT REQUESTS & RUNNER UTILS //
+export { getReportInfo, executeReport, executeReportAsync };
+
+// REPORT PROCESSING/HANDLING UTILS //
+export { constructReportURL };
