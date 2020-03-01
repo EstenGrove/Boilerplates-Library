@@ -318,6 +318,198 @@ class ScheduledTaskNoteModel {
 	}
 }
 
+//////////////////////////////////////////////
+////////////// REPORTS MODELS ////////////////
+//////////////////////////////////////////////
+
+class ReportsModel {
+	constructor() {
+		this._model = {
+			// type of report, date ranges etc...
+			// key/value pairs (Name, Value)
+			ReportParms: [],
+			// for requesting sorting criteria
+			// key/value pairs (Name, Value)
+			ReportSorts: []
+		};
+	}
+	setParams(name, value) {
+		return this._model.ReportParms.push({ Name: name, Value: value });
+	}
+	setParamsMany(listOfParams) {
+		return (this._model.ReportParms = [
+			...this._model.ReportParms,
+			...listOfParams
+		]);
+	}
+	setSorts(name, value) {
+		return this._model.ReportSorts.push({ Name: name, Value: value });
+	}
+	setSortsMany(listOfSorts) {
+		return (this._model.ReportSorts = [
+			...this._model.ReportSorts,
+			...listOfSorts
+		]);
+	}
+	getParams() {
+		return this._model.ReportParms;
+	}
+	getModel() {
+		return this._model;
+	}
+}
+
+class ReportsExceptionModel {
+	constructor() {
+		this._model = {
+			ReportParms: [
+				{ Name: "FacilityID", Value: "" },
+				{ Name: "ExceptionStartDate", Value: "" },
+				{ Name: "ExceptionEndDate", Value: "" }
+			],
+			ReportSorts: []
+		};
+	}
+	setFacilityID(facilityID) {
+		return this._model.ReportParms.filter(x => {
+			if (x.Name === "FacilityID") {
+				return (x.Value = facilityID);
+			}
+			return x;
+		});
+	}
+	setStartDate(startDate) {
+		return this._model.ReportParms.filter(x => {
+			if (x.Name === "ExceptionStartDate") {
+				return (x.Value = startDate);
+			}
+			return x;
+		});
+	}
+	setEndDate(endDate) {
+		return this._model.ReportParms.filter(x => {
+			if (x.Name === "ExceptionEndDate") {
+				return (x.Value = endDate);
+			}
+			return x;
+		});
+	}
+	setStartAndEndDate(start, end) {
+		return this._model.ReportParms.filter(x => {
+			if (x.Name === "ExceptionStartDate") {
+				return (x.Value = start);
+			}
+			if (x.Name === "ExceptionEndDate") {
+				return (x.Value = end);
+			}
+			return x;
+		});
+	}
+	setParams(name, value) {
+		return this._model.ReportParms.push({ Name: name, Value: value });
+	}
+	setParamsMany(listOfParams) {
+		return (this._model.ReportParms = [
+			...this._model.ReportParms,
+			...listOfParams
+		]);
+	}
+	setSorts(name, value) {
+		return this._model.ReportSorts.push({ Name: name, Value: value });
+	}
+	setSortsMany(listOfSorts) {
+		return (this._model.ReportSorts = [
+			...this._model.ReportSorts,
+			...listOfSorts
+		]);
+	}
+	getSorts() {
+		return this._model.ReportSorts;
+	}
+	getParams() {
+		return this._model.ReportParms;
+	}
+	getModel() {
+		return this._model;
+	}
+}
+
+class ReportsCompletionModel {
+	constructor() {
+		this._model = {
+			ReportParms: [
+				{ Name: "FacilityID", Value: "" },
+				{ Name: "CompletionStartDate", Value: "" },
+				{ Name: "CompletionEndDate", Value: "" }
+			],
+			ReportSorts: []
+		};
+	}
+	setFacilityID(facilityID) {
+		return this._model.ReportParms.filter(x => {
+			if (x.Name === "FacilityID") {
+				return (x.Value = facilityID);
+			}
+			return x;
+		});
+	}
+	setStartDate(startDate) {
+		return this._model.ReportParms.filter(x => {
+			if (x.Name === "CompletionStartDate") {
+				return (x.Value = startDate);
+			}
+			return x;
+		});
+	}
+	setEndDate(endDate) {
+		return this._model.ReportParms.filter(x => {
+			if (x.Name === "CompletionEndDate") {
+				return (x.Value = endDate);
+			}
+			return x;
+		});
+	}
+	setStartAndEndDate(start, end) {
+		return this._model.ReportParms.filter(x => {
+			if (x.Name === "CompletionStartDate") {
+				return (x.Value = start);
+			}
+			if (x.Name === "CompletionEndDate") {
+				return (x.Value = end);
+			}
+			return x;
+		});
+	}
+	setParams(name, value) {
+		return this._model.ReportParms.push({ Name: name, Value: value });
+	}
+	setParamsMany(listOfParams) {
+		return (this._model.ReportParms = [
+			...this._model.ReportParms,
+			...listOfParams
+		]);
+	}
+	setSorts(name, value) {
+		return this._model.ReportSorts.push({ Name: name, Value: value });
+	}
+	setSortsMany(listOfSorts) {
+		return (this._model.ReportSorts = [
+			...this._model.ReportSorts,
+			...listOfSorts
+		]);
+	}
+	getSorts() {
+		return this._model.ReportSorts;
+	}
+	getParams() {
+		return this._model.ReportParms;
+	}
+	getModel() {
+		return this._model;
+	}
+}
+
+
 export {
 	// UNSCHEDULED
 	UnscheduledTaskModel,
@@ -329,4 +521,8 @@ export {
 	ScheduledTaskShiftModel,
 	ScheduledSubtaskModel,
 	ScheduledTaskNoteModel
+// REPORTS MODELS
+  ReportsModel,
+  ReportsCompletionModel,
+  ReportsExceptionModel
 };
