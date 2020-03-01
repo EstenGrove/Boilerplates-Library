@@ -34,7 +34,8 @@ const endpoints = {
       byResident: "Download/GetFileRegistryByResident",
       byFacility: "Download/GetFileRegistryByFacility",
       byMeta: "Download/GetFileRegistryByMeta"
-    }
+    },
+    extractImgToFile: "Documents/ExtractImageToFile"
   },
   residents: {
     getResidents: "Advantage/GetResidents",
@@ -198,7 +199,8 @@ const endpoints = {
   },
   reports: {
     getInfo: "Reports/GetReportInformation",
-    executeReport: "Reports/ExecuteReport"
+    executeReport: "Reports/ExecuteReport",
+    executeReportAsync: "Reports/ExecuteReportAsync"
   }
 };
 
@@ -207,7 +209,7 @@ const {
   generic,
   uploads,
   downloads,
-  downloads: { getFileRegistry },
+  downloads: { getFileRegistry, extractImgToFile },
   residents,
   residentData,
   residentData: { forTracker },
@@ -230,6 +232,7 @@ export {
   uploads,
   downloads,
   getFileRegistry,
+  extractImgToFile,
   residents,
   residentData,
   forTracker,
