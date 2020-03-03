@@ -1,7 +1,8 @@
 import { test } from "./utils_env";
 import { downloads } from "./utils_endpoints";
 
-const downloadFile = async (token, id, callback = null) => {
+// fetches a file, and starts download
+const downloadFile = async (token, id, filename) => {
 	let url = test.base + downloads.getFile;
 	url += "?id=" + id;
 
@@ -14,10 +15,9 @@ const downloadFile = async (token, id, callback = null) => {
 				"Content-Type": "application/json"
 			}
 		});
-		const blob = await new Blob([request]);
-		if (callback) return await callback(blob);
+		const blob = await request.blob();
 		console.log("BLOB", blob);
-		return await blob;
+		return saveFile(blob, filename);
 	} catch (err) {
 		console.log("There was an error " + err.message);
 		return err;
@@ -51,20 +51,57 @@ const downloadFileMany = async (token, ids) => {
 ///// FILE DOWNLOAD UTILS /////
 ///////////////////////////////
 
-const startDownload = (blob, filename) => {
+// accepts a blob and a mimeType.. 
+// and transforms the blob based off the mimeType.
+const createBlob = (blob, mimeType = "application/octet-stream") => {
+  const fileBlob = new Blob([blob], { type: mimeType });
+  return fileBlob;
+}
+
+// saves a blob as a file
+const saveFile = (blob, filename) => {
+	const fileURL = window.URL.createObjectURL(blob);
 	const link = document.createElement("a");
-	const url = window.URL.createObjectURL(blob);
-
-	link.href = url;
+	link.href = fileURL;
 	link.download = filename;
-	document.body.appendChild(link);
-
 	link.click();
-	window.URL.revokeObjectURL(url);
-	return;
+	return window.URL.revokeObjectURL(fileURL);
+};
+
+// inits a new "FileReader" instance.
+// invokes the "readAsDataURL" method
+// listens for the result, which can be used for embedding in an <embed/> element
+const createDataURL = blob => {
+	const reader = new FileReader();
+	reader.readAsDataURL(blob);
+
+	return (reader.onload = () => {
+		console.log("reader.result", reader.result);
+		return reader.result;
+	});
+};
+
+const createArrayBuffer = blob => {
+	const reader = new FileReader();
+	reader.readAsArrayBuffer(blob);
+
+	reader.onload = () => {
+		console.log("reader.result", reader.result);
+		return reader.result;
+	};
+};
+
+const createReaderText = blob => {
+	const reader = new FileReader();
+	reader.readAsText(blob);
+
+	reader.onload = () => {
+		console.log("reader.result", reader.result);
+		return reader.result;
+	};
 };
 
 export { downloadFile, downloadFileMany };
 
 // UTILS
-export { startDownload };
+export { saveFile, createDataURL, createArrayBuffer, createReaderText };
