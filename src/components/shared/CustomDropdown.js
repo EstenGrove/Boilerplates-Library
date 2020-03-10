@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import styles from "../../css/shared/CustomDropdown.module.scss";
-import sprite from "../../assets/modals.svg";
+import sprite from "../../assets/modals-complete.svg";
 import { isEmptyArray, isEmptyVal } from "../../helpers/utils_types";
 import { PropTypes } from "prop-types";
 import { useOutsideClick } from "../../utils/useOutsideClick";
@@ -9,6 +9,7 @@ const ENTER = "Enter" || 13;
 const ESCAPE = "Escape" || 27;
 
 const OptionsMenu = ({
+	name,
 	closeHandler,
 	handleSelection,
 	handleSelectionByKey,
@@ -39,9 +40,9 @@ const OptionsMenu = ({
 					options.map((option, index) => (
 						<li
 							tabIndex={0}
-							key={option}
-							onClick={() => handleSelection(option)}
-							onFocus={e => handleFocus(e, option)}
+							key={option + index}
+							onClick={() => handleSelection(name, option)}
+							onFocus={() => handleFocus(option)}
 							onKeyDown={handleSelectionByKey}
 							className={
 								hasFocus === option
@@ -62,8 +63,10 @@ const CustomDropdown = ({
 	id,
 	label,
 	options = [],
+	placeholder,
 	selection,
-	setSelection
+	setSelection,
+	customStyles = {}
 }) => {
 	const inputRef = useRef();
 	const [showOptions, setShowOptions] = useState(false); // menu options
@@ -72,13 +75,13 @@ const CustomDropdown = ({
 	const [searchVal, setSearchVal] = useState("");
 
 	// handles "click" selection for a menu option
-	const handleSelection = option => {
-		setSelection(option);
+	const handleSelection = (name, option) => {
+		setSelection(name, option);
 	};
 
 	// sets active focused item
 	// allows custom focus styles to be applied
-	const handleFocus = (e, option) => {
+	const handleFocus = option => {
 		setHasFocus(option);
 	};
 
@@ -110,8 +113,8 @@ const CustomDropdown = ({
 	};
 
 	const clearSelection = () => {
-		setSelection("");
-		setHasFocus("");
+		handleSelection(name, "");
+		handleFocus("");
 	};
 
 	useEffect(() => {
@@ -141,13 +144,17 @@ const CustomDropdown = ({
 					value={isEmptyVal(selection) ? searchVal : selection}
 					name={name}
 					id={id}
+					placeholder={placeholder}
 					onChange={handleSearch}
 					onClick={() => setShowOptions(true)}
 					onFocus={() => setShowOptions(true)}
 					className={styles.CustomDropdown_inputWrapper_input}
+					style={customStyles}
+					autoComplete="off"
 				/>
 				{showOptions && (
 					<OptionsMenu
+						name={name}
 						handleSelection={handleSelection}
 						handleSelectionByKey={handleSelectionByKey}
 						handleFocus={handleFocus}
@@ -159,13 +166,13 @@ const CustomDropdown = ({
 
 				<svg
 					className={styles.CustomDropdown_closeIcon}
-					onClick={clearSelection}
+					onClick={() => clearSelection(name)}
 				>
 					<use
 						xlinkHref={`${sprite}#icon-${
 							!isEmptyVal(selection) ? "clearclose" : "caret-down"
 						}`}
-					></use>
+					/>
 				</svg>
 			</div>
 		</div>
@@ -191,7 +198,8 @@ OptionsMenu.defaultProps = {
 	options: []
 };
 OptionsMenu.defaultProps = {
-	closeHandler: PropTypes.func.isRequired, // state setter for closing the menu options dropdown
+	name: PropTypes.string.isRequired,
+	closeHandler: PropTypes.func.isRequired,
 	handleSelection: PropTypes.func.isRequired, // "onClick" handler for value selection
 	options: PropTypes.array.isRequired // menu options
 };
