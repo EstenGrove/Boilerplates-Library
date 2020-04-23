@@ -95,7 +95,7 @@ const CustomDropdown = ({
 			return listOptions.includes(val);
 		};
 		if (hasMatch(currentEl) && e.key === ENTER) {
-			return handleSelection(currentEl);
+			return handleSelection(name, currentEl);
 		}
 		if (e.key === ESCAPE) {
 			return setShowOptions(false);
