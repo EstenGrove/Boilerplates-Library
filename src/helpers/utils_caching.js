@@ -1,18 +1,34 @@
-const saveToStorage = (key, items) => {
-  return window.localStorage.setItem(key, JSON.stringify(items));
-};
+import { isEmptyObj } from "./utils_types";
 
-const clearStorage = () => window.localStorage.clear();
+const saveToStorage = (key, val) => {
+	return window.localStorage.setItem(key, JSON.stringify(val));
+};
 
 const getFromStorage = (key = null) => {
-  if (!key) {
-    const items = { ...localStorage };
-    return items;
-  }
-  return window.localStorage.getItem(key);
+	const items = { ...localStorage };
+	if (!key) {
+		return items;
+	} else {
+		return isEmptyObj(items) ? {} : JSON.parse(items[key]);
+	}
 };
 
-const updateStorage = (key, items) =>
-  window.localStorage.setItem(key, JSON.stringify(items));
+const updateItemInStorage = (key, val) => {
+	return window.localStorage.setItem(key, JSON.stringify(val));
+};
 
-export { saveToStorage, clearStorage, getFromStorage, updateStorage };
+const removeFromStorage = key => {
+	return window.localStorage.removeItem(key);
+};
+
+const clearStorage = () => {
+	return window.localStorage.clear();
+};
+
+export {
+	saveToStorage,
+	getFromStorage,
+	updateItemInStorage,
+	removeFromStorage,
+	clearStorage
+};
