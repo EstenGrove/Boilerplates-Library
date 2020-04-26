@@ -1,5 +1,6 @@
 # Custom Boilerplate Library: ```node-babel``` Branch
 
+## **NOTE: THIS CURRENT BRANCH DOES *NOT* INCLUDE EXPRESS; ONLY NODE AND BABEL!!!**
 
 
 ## To Start the Node (w/ Babel) App
@@ -24,7 +25,7 @@ MY_SECRET=<some-api-token>
 npm i dotenv --save
 ```
 
-#### **To Use ```dotenv```
+#### **To Use ```dotenv```**
 
 ```javascript
 // import it into src/index.js
