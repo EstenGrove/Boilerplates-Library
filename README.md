@@ -8,8 +8,6 @@ npm start
 ```
 
 ---
-'dotenv/config';
-```
 
 
 
