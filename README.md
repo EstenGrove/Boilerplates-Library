@@ -25,11 +25,16 @@ MY_SECRET=<some-api-token>
 npm i dotenv --save
 ```
 
-#### **To Use ```dotenv```**
+#### **To Use Environment Variables w/ ```dotenv```**
 
 ```javascript
+// create .env file in the project root
+// add some env variable: MY_VAR=<put-something-here>
+
 // import it into src/index.js
 import 'dotenv/config';
+
+console.log('MY_VAR:', process.env.MY_VAR);
 ```
 
 
