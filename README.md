@@ -37,7 +37,35 @@ import 'dotenv/config';
 console.log('MY_VAR:', process.env.MY_VAR);
 ```
 
+---
 
+## Working w/ the Command Line
+
+<details>
+  <summary>Command Line Input/Arguments</summary>
+**Summary**
+Working w/ input/output from the command line it's best to leverage the `readline` package.
+  
+```javascript
+// imports deps; inits the i/o from the command line
+const readline = require('readline').createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+// accessess the arguments from the command line; the 1st two are the current folder and file, respectively
+const [, , ...args] = processs.argv;
+
+readline.question("Enter a date MM/DD/YYYY:'n", (date) => {
+  formatDate(date);
+  readline.close()
+})
+
+```
+  
+</details>
+  
+  
 
 
 
