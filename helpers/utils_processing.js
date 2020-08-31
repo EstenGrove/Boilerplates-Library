@@ -1,88 +1,270 @@
-import { isEmptyObj, isEmptyArray, isEmptyVal } from "./utils_types";
+import { isEmptyVal, isEmptyArray } from "./utils_types";
+import {
+	isScheduledTask,
+	isPastDue,
+	isException,
+	isNotComplete,
+	isCompleted,
+	findNotCompleteTasks,
+} from "./utils_tasks";
+import { hasException } from "./utils_exceptions";
 
-const isCompleted = task => {
-	if (task?.IsCompleted) return true;
-	if (task?.TaskStatus === "COMPLETE") return true;
-	if (task?.AssessmentTaskStatusId === 2) return true;
-	return false;
+// MISC PROCESSING HELPERS //
+
+// creates a range; usage: range(0, 10, x => x + 1)
+const range = (start, stop, callback) => {
+	return Array.from({ length: stop - start }, (_, i) => callback(i + start));
 };
 
-const isMissedEvent = task => {
-	if (task?.TaskStatus === "MISSED-EVENT") return true;
-	if (task?.AssessmentTaskStatusId === 3) return true;
-	if (task?.Resolution === "MISSED-FORGOTTEN") return true;
-	return false;
+// converts num to letter (MUST BE WITHIN RANGE: 97-122 A-Za-z)
+const numToLetter = (num) => {
+	const letter = String.fromCharCode(num);
+	return letter;
+};
+// gets a 'random' number within a range
+const numInRange = (min = 97, max = 122) => {
+	min = Math.ceil(min);
+	max = Math.floor(max);
+	return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-// #CALCULATIONS
-const getPercentage = (count, completed) => {
-	return Math.round(((completed / count) * 100).toFixed(2)) + "%";
+// count: how many 'random chars' to generate
+// used for ids in <ReassessReport/>
+const generateID = (count = 6) => {
+	const baseCount = range(1, count, (x) => x + 1);
+	const random = baseCount
+		.map((x) => {
+			const inRange = numInRange();
+			return numToLetter(inRange);
+		})
+		.join("");
+	return count + random;
 };
 
-const getAvg = arr => arr.reduce((acc, cur) => acc + cur / arr.length, 0);
+// creates a unique ID, w/ a 'timestamp' of when it was created
+const generateUID = (idLength = 32) => {
+	const x1 = generateID(idLength);
+	return `${x1}=${Date.now()}`;
+};
+
+// returns true if "odd number", else false
+// uses whether there is a remainder, to determine event/odd type
+const isOdd = (num) => {
+	return Boolean(num % 2);
+};
+
+// returns true if "even number", else false
+// uses whether there is a remainder, to determine event/odd type
+const isEven = (num) => {
+	return !Boolean(num % 2);
+};
+
+// Returns a function, that, as long as it continues to be invoked, will not
+// be triggered. The function will be called after it stops being called for
+// N milliseconds. If `immediate` is passed, trigger the function on the
+// leading edge, instead of the trailing.
+function debounce(func, wait, immediate) {
+	var timeout;
+
+	return function executedFunction() {
+		var context = this;
+		var args = arguments;
+
+		var later = function () {
+			timeout = null;
+			if (!immediate) func.apply(context, args);
+		};
+
+		var callNow = immediate && !timeout;
+
+		clearTimeout(timeout);
+
+		timeout = setTimeout(later, wait);
+
+		if (callNow) func.apply(context, args);
+	};
+}
+
+//////////////////////////////////////////////////////////////
+///////////////////// STRING PROCESSING /////////////////////
+/////////////////////////////////////////////////////////////
+
+const addEllipsis = (str = ``, maxLength) => {
+	if (isEmptyVal(str)) return `No description`;
+	if (str.length < maxLength) return str;
+	const managedStr = enforceStrMaxLength(str, maxLength);
+	return managedStr + `...`;
+};
+
+const replaceNullWithMsg = (val, msg) => {
+	if (!val || val === null) return msg;
+	return val;
+};
+
+const enforceStrMaxLength = (str, maxLength = 30) => {
+	if (str.length < maxLength) return str;
+	return str.slice(0, maxLength);
+};
+
+// capitalize first letter of string
+const capitalize = (str) => {
+	return str.substring(0, 1).toUpperCase() + str.substring(1);
+};
+// capitalize all characters
+const capitalizeAll = (str) => {
+	return str?.toUpperCase();
+};
+const capitalizeADLs = (str) => {
+	const { length } = str;
+	return str.substring(0, length - 1).toUpperCase() + str.substring(length - 1);
+};
+
+//////////////////////////////////////////////////////////////
+/////////////////////// COUNTING TASKS ///////////////////////
+//////////////////////////////////////////////////////////////
 
 // get various counts: COMPLETED, PENDING, NOT-COMPLETE, MISSED-EVENT
 const getCount = (tasks, status) => {
 	return tasks.filter((task, index) => task.TaskStatus === status).length;
 };
 
-const getIsCompletedCount = tasks => {
-	return tasks.filter(task => task.IsCompleted).length;
+/**
+ * Default 'counts' object for 'getCountsByStatus'.
+ */
+const initialCounts = {
+	total: 0,
+	pastDue: 0,
+	exceptions: 0,
+	notComplete: 0,
+	complete: 0,
+};
+/**
+ * @description - Counts ALL tasks by status type w/ a single iteration (for performance reasons) and returns an object w/ each task status count.
+ * @default initialCounts - The default count values, and return object.
+ * @param {Array} allTasks - An array of ALL current tasks (includes 'scheduled' & 'unscheduled').
+ * @param {Date} dueDate - A date used to compare if a task is 'PAST-DUE' comparable to the current time & its due date.
+ * @param {Array} shiftTimes - An array of 'AssessmentFacilityShift' records including the facility's shift times.
+ * @returns {Object} - Returns an object with each status count as a field.
+ * - "counts.total": total # of tasks
+ * - "counts.pastDue": total # of 'PAST-DUE' tasks
+ * - "counts.exceptions": total # of 'EXCEPTION' tasks
+ * - "counts.notComplete": total # of 'NOT-COMPLETE' tasks; excludes 'PAST-DUE' & 'EXCEPTION' types
+ * - "counts.complete": total # of 'COMPLETE' tasks; excludes 'PAST-DUE' & 'EXCEPTION' types
+ *
+ * - Updated 8/7/2020 @ 12:48 PM
+ */
+const getCountsByStatus = (
+	allTasks = [],
+	dueDate = new Date(),
+	shiftTimes = []
+) => {
+	return allTasks.reduce(
+		(counts, task) => {
+			if (isException(task) && !isCompleted(task)) {
+				counts.exceptions += 1;
+				return { ...counts, total: allTasks.length };
+			} else if (isPastDue(task, dueDate, shiftTimes)) {
+				counts.pastDue += 1;
+				return { ...counts, total: allTasks.length };
+			} else if (isNotComplete(task, dueDate, shiftTimes)) {
+				counts.notComplete += 1;
+				return { ...counts, total: allTasks.length };
+			} else {
+				counts.complete += 1;
+				return { ...counts, total: allTasks.length };
+			}
+		},
+		{ ...initialCounts }
+	);
 };
 
-// params: "list" - array of objects
-// "prop" - a property in each array item's object
-// "val" - the value that each "prop" should equal.
-const getCountByProp = (list, prop, val) => {
-	return list.filter((item, index) => item[prop] === val).length;
-};
-
-// pass a condition you DONT wont to match (ie all that DONT meet condition)
-const getRemaining = (list, condition) => {
-	return list.filter((item, index) => item.TaskStatus !== condition).length;
+// checks the 'AssessmentExceptionId' field
+const getExceptionCount = (tasks) => {
+	if (isEmptyArray(tasks)) return 0;
+	return tasks.filter((x) => hasException(x)).length;
 };
 
 // gets the number of completed tasks (scheduled tasks)
-const getCompletedCount = tasks => {
+// UPDATED AS 3/4/2020
+const getCompletedCount = (tasks) => {
+	if (isEmptyArray(tasks)) return 0;
+	return tasks.filter((task) => isCompleted(task)).length;
+};
+
+/**
+ * @description - Returns a the total # of "NOT-COMPLETE" tasks, EXCLUDING "PAST DUE" tasks
+ * @param {Array} tasks - A merged array of Scheduled & Unscheduled tasks or either individually.
+ * @returns {Number} - Returns a number as the count of not completed tasks.
+ */
+// EXCLUDES "past due" tasks - UPDATED AS OF 4/28/2020
+const getNotCompleteCount = (tasks, dueDate = Date.now()) => {
+	if (isEmptyArray(tasks)) return 0;
+	return findNotCompleteTasks(tasks, dueDate).length;
+};
+
+/**
+ * UPDATED AS OF 4/28/2020
+ * @description - Counts the number of past due tasks, based off a past due date provided.
+ * @param {Array} tasks - An array of tasks.
+ * @param {Date|Null} pastDueDate - Either date or null. If a date is provided it's used as the past due comparator
+ * @returns {Number} - Returns the number of past due tasks
+ */
+const getPastDueCount = (tasks, pastDueDate = Date.now(), shiftTimes = []) => {
 	if (isEmptyArray(tasks)) return 0;
 	return tasks.filter(
-		task =>
-			task.IsCompleted ||
-			(!(task?.TaskStatus === "COMPLETE") ?? task.AssessmentTaskStatusId === 2)
+		(task) => isPastDue(task, pastDueDate, shiftTimes) && !isException(task)
 	).length;
 };
 
-const mergeCompletedCounts = (scheduledTasks, unscheduledTasks) => {
-	if (isEmptyArray(scheduledTasks) && isEmptyArray(unscheduledTasks))
-		return { scheduled: 0, unscheduled: 0, total: 0 };
+// ##TODOS:
+// - Replace existing 'getPastDueCount' helpers w/ the below version
+// const getPastDueCount = (tasks, anchorDate = new Date(), shiftTimes = []) => {
+// 	if (isEmptyArray(tasks)) return [];
+// 	return tasks.filter((task) => isPastDue(task, anchorDate, shiftTimes)).length;
+// };
 
-	return {
-		scheduled: scheduledTasks.filter(task => isCompleted(task)).length,
-		unscheduled: unscheduledTasks.filter(task => isCompleted(task)).length,
-		total:
-			parseInt(scheduledTasks.filter(task => isCompleted(task)).length, 10) +
-			parseInt(unscheduledTasks.filter(task => isCompleted(task)).length, 10)
-	};
+/**
+ * @description - Merges Scheduled & Unscheduled tasks and returns the count.
+ * @param {Array} tasks - A merged array of Scheduled & Unscheduled tasks.
+ * @example getTaskCount([...scheduledTasks, ...unscheduledTasks])
+ * @returns {Number} - Returns a number as the total task count.
+ */
+const getTaskCount = (tasks) => {
+	if (isEmptyArray(tasks)) return 0;
+	return tasks.length;
 };
 
-//  #STRING HELPERS
-// will slice a string at a desired length an add a "..."
-const addEllipsis = (val, desiredLength) => {
-	if (val.length <= desiredLength) return val;
-	return val.slice(0, desiredLength) + "...";
+const getMissedEvents = (tasks) => {
+	if (isEmptyArray(tasks)) return [];
+	return tasks.filter((task) => {
+		if (isScheduledTask(task)) {
+			return (
+				task.TaskStatus === "MISSED-EVENT" || task.AssessmentTaskStatusId === 3
+			);
+		} else {
+			return (
+				task.AssessmentTaskStatusId === 3 || task?.TaskStatus === "MISSED-EVENT"
+			);
+		}
+	});
 };
 
-// #DATA TYPE HELPERS
-const replaceNullWithMsg = (val, msg) => {
-	if (!val || val === null) return msg;
-	return val;
+// removes dups from arrays (does NOT work with nested objects)
+const removeDuplicates = (list) => {
+	return list.reduce((unique, item) => {
+		return unique.includes(item) ? unique : [...unique, item];
+	}, []);
 };
 
-const getRandomNumArbitrary = (min, max) => {
-	return Math.random() * (max - min) + min;
+// handles complex data structures (ie nested objects inside of arrays etc.)
+const removeComplexDuplicates = (list) => {
+	return list.reduce((unique, item) => {
+		return JSON.stringify(unique).includes(JSON.stringify(item))
+			? unique
+			: [...unique, item];
+	}, []);
 };
 
-// SORTING, MATCHING AND FILTERING //
 const groupBy = (list, iteratee) => {
 	return list.reduce((acc, item) => {
 		const keyToSortBy = iteratee(item);
@@ -94,85 +276,49 @@ const groupBy = (list, iteratee) => {
 	}, {});
 };
 
-/**
- * @description - Match an object to an object by id
- * @param {object} item - The current item in an array to be checked/tested
- * @param {string} id - A unique identifier to test for.
- * @param {object} comparator - The base object to match 'to'
- * @example matchByID({id: 1}, 'id', {id: 1})
- * returns [{id: 1}]
- * NOTE: result can be destructured out of the array.
- */
-const matchByID = (item, id, comparator) => {
-	if (item[id] === comparator[id]) {
-		return item;
-	}
-	return;
+// checks if an item 'already exists' in an array
+// works w/ primitives and object-types
+const alreadyExists = (current, existing = []) => {
+	const strCurrent = JSON.stringify(current);
+	const strExisting = JSON.stringify(existing);
+	if (!strExisting.includes(strCurrent)) return false;
+	return true;
 };
 
-/**
- * @description - Locate the object that has the same id as the "comparator"
- * @param {array} items - An array of items to test for a match
- * @param {string} id - A unique identifier to test for.
- * @param {object} comparator - The base object to find a match for (ie "to compare against")
- */
-const getMatch = (items, id, comparator) => {
-	if (isEmptyArray(items)) return {};
-	if (isEmptyObj(comparator)) return {};
-	return items.reduce((all, item) => {
-		if (item[id] === comparator[id]) {
-			all = item;
-			return all;
-		}
-		return all;
-	});
-};
+// ID & CHAR HELPERS
+export { numToLetter, numInRange, generateID, generateUID };
 
-// 1. loops thru an array of objects,
-// 2. finds match by firstID in top-level array
-// 3. loops thru matching items' array
-// 4. finds child match by secondID
-// NOTE: USED FOR FINDING THE MATCHING SUBTASK RECORD FROM A LIST OF ADLCARETASK RECORDS.
-const getNestedMatch = (items, firstID, comparator, secondID) => {
-	if (isEmptyArray(items)) return {};
-	if (isEmptyObj(comparator)) return {};
-	const initialMatch = items.reduce((all, item) => {
-		if (item[firstID] === comparator[firstID]) {
-			all = item;
-			return all;
-		}
-		return all;
-	});
-	return getMatch(initialMatch?.ShiftTasks, secondID, comparator);
-};
-
-// accepts the current route as a string and finds the last entry
-// ie "dashboard/daily/details/Ambulation" will return "Ambulation"
-const getRoute = route => {
-	if (isEmptyVal(route)) return;
-	const split = route.split("/");
-	const { length } = split;
-	return split[length - 1];
-};
-
-// checking status's for scheduled, unscheduled and subtasks.
-export { isCompleted, isMissedEvent };
-
+// NUMBER, CALCULATION HELPERS
 export {
-	mergeCompletedCounts,
-	getCompletedCount,
-	getPercentage,
-	getAvg,
-	getRemaining,
-	getCount,
-	getCountByProp,
+	isOdd,
+	isEven,
+	range,
+	debounce,
+	groupBy,
+	alreadyExists,
+	removeDuplicates,
+	removeComplexDuplicates,
+};
+
+// string processing utils
+export {
 	addEllipsis,
 	replaceNullWithMsg,
-	getRandomNumArbitrary,
-	getIsCompletedCount
+	enforceStrMaxLength,
+	capitalize,
+	capitalizeAll,
+	capitalizeADLs,
 };
-// handles splitting the url string to get the Details view's adl route
-export { getRoute };
 
-// SORTING & FILTERING UTILS
-export { groupBy, matchByID, getMatch, getNestedMatch };
+// TASK COUNTS //
+export {
+	getCount,
+	getTaskCount,
+	getMissedEvents,
+	// CURRENT TASK COUNT HELPERS
+	getCountsByStatus, // GET ALL TASK COUNTS IN A SINGLE LOOP
+	getPastDueCount,
+	getCompletedCount, // "COMPLETE" & & "EXCEPTIONS"
+	getNotCompleteCount, // "NOT-COMPLETE", excluding "PAST DUE" & "EXCEPTIONS"
+	getExceptionCount, //
+};

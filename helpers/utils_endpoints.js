@@ -1,14 +1,18 @@
-// scheduledTasks.save.task
-// scheduledTasks.get.task
-// unscheduledTasks.update.task
-// unscheduledTasks.delete.taskMany
-
+/**
+ * Update Endpoint & ENV Variables 6/2 at 8:00 AM
+ * Azure ENV Endpoint: https://ala-api.azurewebsites.net
+ */
 const endpoints = {
 	base: "https://apitest.aladvantage.com/alaservices/v1/",
 	auth: {
 		login: "Security/Login",
 		logout: "Security/Logout",
-		loginStatus: "Security/LoginValid"
+		loginStatus: "Security/LoginValid",
+		validateToken: "Security/SecurityTokenValid",
+		refreshToken: "Security/SecurityTokenRefresh",
+		sessionDetails: "Security/GetSecurityTokenDetail",
+		userAccessByID: "Security/GetUserAccess",
+		userAccessByEmail: "Security/GetUserAccessByEmail",
 	},
 	generic: {
 		count: "Data/Count",
@@ -18,13 +22,13 @@ const endpoints = {
 		execute: "Data/Execute",
 		insert: "Data/Insert",
 		save: "Data/Save",
-		update: "Data/Update"
+		update: "Data/Update",
 	},
 	uploads: {
 		upload: "Upload/PutFile",
 		uploadMany: "Upload/PutFileMany",
 		saveFileRegistry: "Upload/SaveFileRegistry",
-		saveFileRegistryMany: "Upload/SaveFileRegistryMany"
+		saveFileRegistryMany: "Upload/SaveFileRegistryMany",
 	},
 	downloads: {
 		getFile: "Download/GetFile",
@@ -33,190 +37,170 @@ const endpoints = {
 			byUser: "Download/GetFileRegistryByUser",
 			byResident: "Download/GetFileRegistryByResident",
 			byFacility: "Download/GetFileRegistryByFacility",
-			byMeta: "Download/GetFileRegistryByMeta"
-		}
+			byMeta: "Download/GetFileRegistryByMeta",
+		},
 	},
 	residents: {
 		getResidents: "Advantage/GetResidents",
 		byUser: "Resident/GetResidentsByUser",
-		byUserEmail: "Resident/GetResidentsByUserEmail"
+		byUserEmail: "Resident/GetResidentsByUserEmail",
 	},
 	residentData: {
 		getPhotos: "Advantage/GetResidentPhotos",
 		getSummary: "Advantage/GetSummary",
 		getAssessment: "Resident/GetResidentAssessment",
+		getContacts: "Advantage/GetContacts",
 		getProfile: "Resident/GetResidentProfile",
+		getLOA: "Advantage/GetLeaveOfAbsence",
+		getMeds: "Advantage/GetMedications",
+		getInventory: "Advantage/GetResidentInventory",
+		getResidentBM: "Advantage/GetResidentBowelMovements",
+		getResidentWeight: "Advantage/GetResidentWeight",
 		forTracker: {
-			original: "Resident/GetResidentForAdvantageTracker",
 			byDay: "Resident/GetResidentDayForAdvantageTracker",
-			byWeek: "Resident/GetResidentWeekForAdvantageTracker"
-		}
+			byWeek: "Resident/GetResidentWeekForAdvantageTracker",
+			byDayMaster: "Resident/GetResidentDayAssessmentMaster",
+			byWeekMaster: "Resident/GetResidentWeekAssessmentMaster",
+			byDayDetails: "Resident/GetResidentDayAssessmentDetails",
+			byWeekDetails: "Resident/GetResidentDayAssessmentDetails",
+		},
+		// for adl shift schedule (ie shifts per adl)
+		adlSchedule: {
+			getSchedule: "Advantage/GetAssessmentResidentAdlShift",
+			saveScheduleMany: "Resident/UpdateResidentsAdlShifts",
+			getAdlShiftChanges: "Facility/GetFacilityAdlShifts",
+		},
 	},
 	assessmentTracking: {
 		save: "Advantage/SaveAssessmentTracking",
-		update: "Advantage/UpdateAssessmentTracking"
+		update: "Advantage/UpdateAssessmentTracking",
 	},
 	scheduledTasks: {
 		// ASSESSMENT TRACKING TASK RECORDS = SCHEDULED TASKS
 		get: {
 			task: "Advantage/GetAssessmentTrackingTask",
 			task2: "Advantage/GetAssessmentTrackingTask2",
-			subTask: "Advantage/GetAssessmentTrackingTaskSubTask", // DEPRECATED
-			subTask2: "Advantage/GetAssessmentTrackingTaskSubTask2", // DEPRECATED
-			shiftSubTask: "Advantage/GetAssessmentTrackingTaskShiftSubTask",
-			shiftSubTask2: "Advantage/GetAssessmentTrackingTaskShiftSubTask2",
-			note: "Advantage/GetAssessmentTrackingTaskNote",
-			note2: "Advantage/GetAssessmentTrackingTaskNote2"
 		},
 		update: {
 			task: "Advantage/UpdateAssessmentTrackingTask",
 			taskMany: "Advantage/UpdateAssessmentTrackingTaskMany",
-			subTask: "Advantage/UpdateAssessmentTrackingTaskSubTask", // DEPRECATED
-			subTaskMany: "Advantage/UpdateAssessmentTrackingTaskSubTaskMany", // DEPRECATED
-			shiftSubTask: "Advantage/UpdateAssessmentTrackingTaskShiftSubTask",
-			shiftSubTaskMany:
-				"Advantage/UpdateAssessmentTrackingTaskShiftSubTaskMany",
-			note: "Advantage/UpdateAssessmentTrackingTaskNote",
-			noteMany: "Advantage/UpdateAssessmentTrackingTaskNoteMany"
 		},
+		// PRIMARY UPDATE ENDPOINTS
 		save: {
 			task: "Advantage/SaveAssessmentTrackingTask",
 			taskMany: "Advantage/SaveAssessmentTrackingTaskMany",
-			subTask: "Advantage/SaveAssessmentTrackingTaskSubTask", // DEPRECATED
-			subTaskMany: "Advantage/SaveAssessmentTrackingTaskSubTaskMany", // DEPRECATED
-			shiftSubTask: "Advantage/SaveAssessmentTrackingTaskShiftSubTask",
-			shiftSubTaskMany: "Advantage/SaveAssessmentTrackingTaskShiftSubTaskMany",
-			note: "Advantage/SaveAssessmentTrackingTaskNote",
-			noteMany: "Advantage/SaveAssessmentTrackingTaskNoteMany"
 		},
 		delete: {
 			task: "Advantage/DeleteAssessmentTrackingTask",
 			taskMany: "Advantage/DeleteAssessmentTrackingTaskMany",
-			subTask: "Advantage/DeleteAssessmentTrackingTaskSubTask", // DEPRECATED
-			subTaskMany: "Advantage/DeleteAssessmentTrackingTaskSubTaskMany", // DEPRECATED
-			shiftSubTask: "Advantage/DeleteAssessmentTrackingTaskShiftSubTask",
-			shiftSubTaskMany:
-				"Advantage/DeleteAssessmentTrackingTaskShiftSubTaskMany",
-			note: "Advantage/DeleteAssessmentTrackingTaskNote",
-			noteMany: "Advantage/DeleteAssessmentTrackingTaskNoteMany"
 		},
 		insert: {
 			task: "Advantage/InsertAssessmentTrackingTask",
 			taskMany: "Advantage/InsertAssessmentTrackingTaskMany",
-			subTask: "Advantage/InsertAssessmentTrackingTaskSubTask", // DEPRECATED
-			subTaskMany: "Advantage/InsertAssessmentTrackingTaskSubTaskMany", // DEPRECATED
-			shiftSubTask: "Advantage/InsertAssessmentTrackingTaskShiftSubTask",
-			shiftSubTaskMany:
-				"Advantage/InsertAssessmentTrackingTaskShiftSubTaskMany",
-			note: "Advantage/InsertAssessmentTrackingTaskNote",
-			noteMany: "Advantage/InsertAssessmentTrackingTaskNoteMany"
 		},
 		count: {
 			task: "Advantage/CountAssessmentTrackingTask",
 			task2: "Advantage/CountAssessmentTrackingTask2",
-			subTask: "Advantage/CountAssessmentTrackingTaskSubTask", // DEPRECATED
-			subTask2: "Advantage/CountAssessmentTrackingTaskSubTask2", // DEPRECATED
-			shiftSubTask: "Advantage/CountAssessmentTrackingTaskShiftSubTask",
-			shiftSubTask2: "Advantage/CountAssessmentTrackingTaskShiftSubTask2",
-			note: "Advantage/CountAssessmentTrackingTaskNote",
-			note2: "Advantage/CountAssessmentTrackingTaskNote2"
-		}
+		},
 	},
 	unscheduledTasks: {
 		get: {
 			task: "Advantage/GetAssessmentUnscheduleTask",
 			task2: "Advantage/GetAssessmentUnscheduleTask2",
-			subTask: "Advantage/GetAssessmentUnscheduleTaskSubTask", // DEPRECATED
-			subTask2: "Advantage/GetAssessmentUnscheduleTaskSubTask2", // DEPRECATED
-			shiftSubTask: "Advantage/GetAssessmentUnscheduleTaskShiftSubTask",
-			shiftSubTask2: "Advantage/GetAssessmentUnscheduleTaskShiftSubTaskMany",
-			note: "Advantage/GetAssessmentUnscheduleTaskNote",
-			note2: "Advantage/GetAssessmentUnscheduleTaskNote2"
 		},
 		update: {
 			task: "Advantage/UpdateAssessmentUnscheduleTask",
 			taskMany: "Advantage/UpdateAssessmentUnscheduleTaskMany",
-			subTask: "Advantage/UpdateAssessmentUnscheduleTaskSubTask", // DEPRECATED
-			subTaskMany: "Advantage/UpdateAssessmentUnscheduleTaskSubTaskMany", // DEPRECATED
-			shiftSubTask: "Advantage/UpdateAssessmentUnscheduleTaskShiftSubTask",
-			shiftSubTaskMany:
-				"Advantage/UpdateAssessmentUnscheduleTaskShiftSubTaskMany",
-			note: "Advantage/UpdateAssessmentUnscheduleTaskNote",
-			noteMany: "Advantage/UpdateAssessmentUnscheduleTaskNoteMany"
 		},
+		// PRIMARY UPDATE ENDPOINTS - USE *IN-PLACE-OF* "UPDATE" ROUTES
 		save: {
 			task: "Advantage/SaveAssessmentUnscheduleTask",
 			taskMany: "Advantage/SaveAssessmentUnscheduleTaskMany",
-			subTask: "Advantage/SaveAssessmentUnscheduleTaskSubTask", // DEPRECATED
-			subTaskMany: "Advantage/SaveAssessmentUnscheduleTaskSubTaskMany", // DEPRECATED
-			shiftSubTask: "Advantage/SaveAssessmentUnscheduleTaskShiftSubTask",
-			shiftSubTaskMany:
-				"Advantage/SaveAssessmentUnscheduleTaskShiftSubTaskMany",
-			note: "Advantage/SaveAssessmentUnscheduleTaskNote",
-			noteMany: "Advantage/SaveAssessmentUnscheduleTaskNoteMany"
 		},
 		delete: {
 			task: "Advantage/DeleteAssessmentUnscheduleTask",
 			taskMany: "Advantage/DeleteAssessmentUnscheduleTaskMany",
-			subTask: "Advantage/DeleteAssessmentUnscheduleTaskSubTask", // DEPRECATED
-			subTaskMany: "Advantage/DeleteAssessmentUnscheduleTaskSubTask", // DEPRECATED
-			shiftSubTask: "Advantage/DeleteAssessmentUnscheduleTaskShiftSubTask",
-			shiftSubTaskMany:
-				"Advantage/DeleteAssessmentUnscheduleTaskShiftSubTaskMany",
-			note: "Advantage/DeleteAssessmentUnscheduleTaskNote",
-			noteMany: "Advantage/DeleteAssessmentUnscheduleTaskNote"
 		},
 		insert: {
 			task: "Advantage/InsertAssessmentUnscheduleTask",
 			taskMany: "Advantage/InsertAssessmentUnscheduleTaskMany",
-			subTask: "Advantage/InsertAssessmentUnscheduleTaskSubTask", // DEPRECATED
-			subTaskMany: "Advantage/InsertAssessmentUnscheduleTaskSubTaskMany", // DEPRECATED
-			shiftSubTask: "Advantage/InsertAssessmentUnscheduleTaskShiftSubTask",
-			shiftSubTaskMany:
-				"Advantage/InsertAssessmentUnscheduleTaskShiftSubTaskMany",
-			note: "Advantage/InsertAssessmentUnscheduleTaskNote",
-			noteMany: "Advantage/InsertAssessmentUnscheduleTaskNoteMany"
 		},
 		count: {
 			task: "Advantage/CountAssessmentUnscheduleTask",
 			task2: "Advantage/CountAssessmentUnscheduleTask2",
-			subTask: "Advantage/CountAssessmentUnscheduleTaskSubTask", // DEPRECATED
-			subTask2: "Advantage/CountAssessmentUnscheduleTaskSubTask2", // DEPRECATED
-			shiftSubTask: "Advantage/CountAssessmentUnscheduleTaskShiftSubTask",
-			shiftSubTask2: "Advantage/CountAssessmentUnscheduleTaskShiftSubTask2",
-			note: "Advantage/CountAssessmentUnscheduleTaskNote",
-			note2: "Advantage/CountAssessmentUnscheduleTaskNote2"
-		}
+		},
 	},
 	pastDue: {
-		get: "Community/GetCommunityPastDueTasks"
+		get: "Community/GetCommunityPastDueTasks",
+		byFacility: "Community/GetCommunityPastDueTasks",
+		byResident: "Resident/GetResidentPastDueTasks",
 	},
 	reassess: {
 		updateSingle: "Advantage/UpdateAssessmentTrackingReassess",
-		updateMany: "Advantage/UpdateAssessmentTrackingReassessMany"
+		updateMany: "Advantage/UpdateAssessmentTrackingReassessMany",
+		saveReassess: "Advantage/SaveAssessmentTrackingReassess",
+		saveReassessMany: "Advantage/SaveAssessmentTrackingReassessMany",
 	},
 	user: {
 		getProfile: "Security/GetUserProfile",
-		getProfileByEmail: "Security/GetUserProfileByEmail"
+		getProfileByEmail: "Security/GetUserProfileByEmail",
 	},
 	reports: {
 		getInfo: "Reports/GetReportInformation",
 		executeReport: "Reports/ExecuteReport",
-		executeReportAsync: "Reports/ExecuteReportAsync"
+		executeReportAsync: "Reports/ExecuteReportAsync",
+		// daily reports APIs
+		getDailyExceptions: "Community/GetDailyExceptionTasks",
+		getDailyCompletions: "Community/GetDailyCompletionTasks",
+		getDailyTaskCreatedReport: "Assessment/GetUnscheduleTasks",
+		getDailyReassessReport: "Assessment/GetReassessTasks",
+		getDailyServicePlanReport: "Assessment/GetServicePlans",
+		getPastDueReportByFacility: "Community/GetCommunityPastDueTasks",
+		getPastDueReportByResident: "Resident/GetResidentPastDueTasks",
+		// historical report APIs
+		getHistoricalTaskCreated: "Assessment/GetUnscheduleTasks",
+		getHistoricalReassess: "Assessment/GetReassessTasks",
+		getHistoricalServicePlan: "Assessment/GetServicePlans",
+		getHistoricalActualTime: "ENDPOINT-TBD",
+	},
+	// UPDATE FACILITY'S SHIFT TIMES (START/END TIME)
+	shiftTimes: {
+		getShiftTimes: "Advantage/GetAssessmentFacilityShift",
+		getShiftTimes2: "Advantage/GetAssessmentFacilityShift2", // "POST" TYPE
+		saveShiftTimes: "Advantage/SaveAssessmentFacilityShift",
+		saveShiftTimesMany: "Advantage/SaveAssessmentFacilityShiftMany",
 	},
 	facility: {
-		get: {
-			facilityList: "Advantage/GetFacility"
+		getCategories: "Advantage/GetAssessmentCategory",
+		getShifts: "Advantage/GetAssessmentShift",
+		getFacilities: {
+			byUser: "Community/GetCommunitiesByUser",
+			byUserEmail: "Community/GetCommunitiesByUserEmail",
 		},
-		save: {
-			facility: "Advantage/SaveFacility",
-			facilityMany: "Advantage/SaveFacilityMany"
+		exceptions: {
+			getExceptionType: "Advantage/GetAssessmentFacilityException",
+			saveExceptionType: "Advantage/SaveAssessmentFacilityException",
+			saveExceptionTypeMany: "Advantage/SaveAssessmentFacilityExceptionMany",
+			deleteExceptionType: "Advantage/DeleteAssessmentFacilityException",
+			deleteExceptionTypeMany:
+				"Advantage/DeleteAssessmentFacilityExceptionMany",
 		},
-		update: {
-			facility: "Advantage/UpdateFacility",
-			facilityMany: "Advantage/UpdateFacilityMany"
-		}
-	}
+	},
+	exceptions: {
+		// 'AssessmentException' table (ie global)
+		byAssessment: {
+			saveException: "Advantage/SaveAssessmentException",
+			saveExceptionMany: "Advantage/SaveAssessmentExceptionMany",
+		},
+		// 'AssessmentFacilityException' table (ie by facility)
+		byFacility: {
+			getException: "Advantage/GetAssessmentFacilityException",
+			saveException: "Advantage/SaveAssessmentFacilityException",
+			saveExceptionMany: "Advantage/SaveAssessmentFacilityExceptionMany",
+			deleteException: "Advantage/DeleteAssessmentFacilityException",
+			deleteExceptionMany: "Advantage/DeleteAssessmentFacilityExceptionMany",
+		},
+	},
 };
 
 const {
@@ -227,7 +211,7 @@ const {
 	downloads: { getFileRegistry },
 	residents,
 	residentData,
-	residentData: { forTracker },
+	residentData: { forTracker, adlSchedule },
 	assessmentTracking,
 	scheduledTasks,
 	unscheduledTasks,
@@ -235,18 +219,23 @@ const {
 	reassess,
 	user,
 	reports,
-	facility
+	shiftTimes,
+	facility: { getFacilities },
+	facility,
+	exceptions,
 } = endpoints;
 
 export {
-	auth,
-	generic,
+	endpoints,
+	auth, // login, logout, checkLoginStatus
+	generic, // get, save, delete, update
 	uploads,
-	downloads,
+	downloads, // download single, download many
 	getFileRegistry,
 	residents,
 	residentData,
 	forTracker,
+	adlSchedule, // resident adl schedule (bulk or single resident)
 	assessmentTracking,
 	scheduledTasks,
 	unscheduledTasks,
@@ -254,5 +243,8 @@ export {
 	reassess,
 	user,
 	reports,
-	facility
+	shiftTimes, // by facility
+	facility,
+	exceptions,
+	getFacilities,
 };

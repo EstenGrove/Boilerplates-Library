@@ -1,6 +1,6 @@
 import { isEmptyVal } from "./utils_types";
 
-const getResolutionID = resolution => {
+const getResolutionID = (resolution) => {
 	switch (resolution) {
 		case "COMPLETED":
 			return 1;
@@ -21,7 +21,7 @@ const getResolutionID = resolution => {
 	}
 };
 
-const getResolutionNameFromID = id => {
+const getResolutionNameFromID = (id) => {
 	switch (id) {
 		case 1:
 			return "COMPLETED";
@@ -42,7 +42,7 @@ const getResolutionNameFromID = id => {
 	}
 };
 
-const determineResolution = vals => {
+const determineResolution = (vals) => {
 	if (vals.residentUnavailable) {
 		return "RESIDENT-DENIED";
 	}
