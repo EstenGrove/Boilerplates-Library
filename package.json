@@ -1,0 +1,21 @@
+{
+	"name": "my-project-name",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"dev": "parcel index.html",
+		"build": "parcel build index.html",
+		"test": "jest --watch"
+	},
+	"keywords": [],
+	"author": "Steven G. <echo.alchemist.design@gmail.com>",
+	"license": "MIT",
+	"devDependencies": {
+		"@babel/core": "^7.7.7",
+		"@babel/preset-env": "^7.7.7",
+		"babel-jest": "^24.9.0",
+		"jest": "^24.9.0",
+		"parcel-bundler": "^1.12.4"
+	}
+}

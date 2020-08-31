@@ -1,0 +1,84 @@
+:root {
+	--mainPurple: hsla(242, 89%, 64%, 1);
+	--mainRed: hsla(352, 70%, 50%, 1);
+	--mainGreen: hsla(170, 100%, 39%, 1);
+	--mainBlue: hsla(197, 100%, 50%, 1);
+	--mainCharcoal: hsla(268, 10%, 30%, 1);
+	--mainYellow: hsla(60, 92%, 71%, 1);
+	--mainOrange: hsla(39, 100%, 70%, 1);
+	--mainBlackBlue: hsla(220, 18%, 20%, 1);
+	--altPurple: hsla(240, 68%, 62%, 1);
+
+	--flatPurple: hsla(222, 89%, 64%, 0.3);
+	--flatBlue: hsla(197, 100%, 50%, 0.3);
+	--flatAltPurple: hsla(259, 77%, 64%, 0.4);
+	--flatGreen: hsla(144, 69%, 63%, 0.4);
+	--flatSmoke: hsla(268, 10%, 30%, 0.2);
+	--flatRed: hsla(330, 100%, 41%, 0.22);
+	--flatYellow: hsla(60, 92%, 71%, 0.7);
+	--flatOrange: hsla(11, 100%, 75%, 0.4);
+
+	--lightShadow: 0px 1px 7px -1px rgba(0, 0, 0, 0.25);
+	--mediumShadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+	--highShadow: 3px 4px 16px -1px rgba(0, 0, 0, 0.75);
+	--subtleShadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+	--medSubtleShadow: 0 3px 6px rgba(0, 0, 0, 0.16),
+		0 3px 6px rgba(0, 0, 0, 0.23);
+	--pronouncedShadow: 0 14px 28px rgba(0, 0, 0, 0.25),
+		0 10px 10px rgba(0, 0, 0, 0.22);
+	--raisedShadow: 0 19px 38px rgba(0, 0, 0, 0.3),
+		0 15px 12px rgba(0, 0, 0, 0.22);
+	--insetShadow: inset 0px 0px 10px rgba(0, 0, 0, 0.1);
+	--mainOutline: 0 0 0 2px hsla(240, 100%, 50%, 0.3);
+	--subtleBottomShadow: 0 4px 2px -2px rgba(0, 0, 0, 0.1);
+}
+/* ----- USAGE:  background-color: var(--mainPurple) ----- */
+
+*,
+*::after,
+*::before {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+body {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 2rem;
+	background-color: #eaecef;
+	font-family: "Raleway", "Roboto", sans-serif;
+}
+html {
+	font-size: 62.5%;
+}
+
+.title {
+	font-size: 3rem;
+	font-weight: 800;
+}
+.subtitle {
+	font-size: 1.8rem;
+	font-weight: 300;
+	margin-bottom: 2rem;
+}
+
+.btn {
+	background-color: var(--mainPurple);
+	color: #ffffff;
+	padding: 1.2rem 2rem;
+	border-radius: 0.5rem;
+	border: none;
+	outline: none;
+	font-size: 1.4rem;
+}
+.btn:hover {
+	cursor: pointer;
+	box-shadow: var(--subtleShadow);
+}
+#output {
+	width: 100%;
+	height: 100%;
+	background-color: #eaecef;
+	border: 1px solid #ccc;
+	padding: 2rem;
+}
