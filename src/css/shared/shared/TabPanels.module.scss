@@ -1,0 +1,11 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.TabPanels {
+	@include fill_container;
+	min-height: 20rem;
+	max-height: 35rem;
+	padding: 2rem 1rem;
+	overflow-y: auto;
+}

@@ -1,0 +1,70 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+
+.RadioButton {
+	width: -webkit-max-content;
+	width: -moz-max-content;
+	width: max-content;
+	height: -webkit-max-content;
+	height: -moz-max-content;
+	height: max-content;
+	margin-right: 1.5rem;
+	margin-bottom: 1rem;
+
+	&_radio {
+		opacity: 0;
+		&:hover + label::before {
+			cursor: pointer;
+			box-shadow: map-get($map: $shadows, $key: "mainOutline");
+		}
+	}
+
+	&_label {
+		font-size: 1.6rem;
+		font-weight: 400;
+		color: map-get($map: $blueGreys, $key: "subheadings");
+		margin-left: 1rem;
+		position: relative;
+		outline: none;
+		border: none;
+		&:hover {
+			cursor: pointer;
+		}
+		&::before {
+			position: absolute;
+			display: block;
+			content: "";
+			top: 0;
+			left: -2.5rem;
+			width: 18px;
+			height: 18px;
+			border: 1px solid #bbb;
+			border-radius: 50%;
+			// background-color: #ffffff;
+		}
+		&::after {
+			position: absolute;
+			display: block;
+			content: "";
+			top: 0;
+			left: 1.5rem;
+
+			border-radius: 50%;
+		}
+	}
+	&_radio:checked + &_label::after {
+		position: absolute;
+		display: block;
+		content: "";
+		top: 3px;
+		left: -22px;
+		width: 12px;
+		height: 12px;
+		background-color: map-get($map: $colors, $key: "main");
+		border-radius: 50%;
+	}
+}
+
+input[type="radio"]:focus-within + label::before {
+	box-shadow: map-get($map: $shadows, $key: "mainOutline");
+}

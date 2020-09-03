@@ -1,0 +1,55 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.ToggleSwitch {
+	position: relative;
+	width: 6rem;
+	height: 2.5rem;
+	border-radius: 5rem;
+	background-color: #eaecef;
+	z-index: 2;
+
+	&:hover,
+	&:focus {
+		box-shadow: map-get($map: $shadows, $key: "mainOutline");
+		cursor: pointer;
+	}
+	&_input {
+		display: none;
+	}
+	&_label {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		border-radius: 5rem;
+		z-index: 3;
+		&:hover {
+			cursor: pointer;
+		}
+
+		&::after {
+			position: absolute;
+			display: block;
+			content: "";
+			width: 2.5rem;
+			height: 2.5rem;
+			top: 0;
+			left: 0;
+			border-radius: 50%;
+			background-color: #ffffff;
+			z-index: 3;
+			box-shadow: map-get($map: $shadows, $key: "light");
+			transition: all 0.2s ease-in-out;
+		}
+	}
+	&_input:checked ~ &_label::after {
+		transform: translateX(3.6rem);
+		transition: all 0.2s ease-in-out;
+	}
+	&_input:checked ~ &_label {
+		background-color: map-get($map: $colors, $key: "mainGreen");
+	}
+}

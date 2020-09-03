@@ -1,0 +1,79 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.Checkbox {
+	width: -webkit-max-content;
+	width: -moz-max-content;
+	width: max-content;
+	position: relative;
+	margin-bottom: 2rem;
+	@include flex_row(flex-start, center);
+	margin-bottom: 2rem;
+
+	&_checkbox {
+		width: 1.4rem;
+		visibility: hidden;
+		position: relative;
+	}
+
+	&_label {
+		margin-left: 1rem;
+		font-size: 1.5rem;
+		font-weight: 300;
+		color: map-get($map: $blueGreys, $key: "headings");
+
+		&::before {
+			width: 1.7rem;
+			height: 1.7rem;
+			position: absolute;
+			display: block;
+			content: "";
+			top: 0.2rem;
+			left: 0;
+			border: 1px solid #777;
+			border-radius: 0.5rem;
+
+			&:hover,
+			&::before {
+				-webkit-box-shadow: map-get($map: $shadows, $key: "mainOutline");
+				box-shadow: map-get($map: $shadows, $key: "mainOutline");
+				cursor: pointer;
+			}
+		}
+
+		&::after {
+			width: 1.7rem;
+			height: 1.7rem;
+			position: absolute;
+			display: none;
+			content: "✓";
+			font-size: 1.4rem;
+			font-weight: bold;
+			top: 0.1rem;
+			left: 0.2rem;
+			border-radius: 0.5rem;
+			color: #fff;
+		}
+	}
+
+	input[type="checkbox"]:checked + &_label::before {
+		background-color: map-get($map: $colors, $key: "main");
+	}
+
+	input[type="checkbox"]:checked + &_label::after {
+		display: block;
+	}
+
+	input[type="checkbox"]:disabled + label,
+	input[type="checkbox"]:disabled + label::after {
+		opacity: 0.3;
+	}
+}
+
+.strike {
+	opacity: 0.5;
+	-webkit-text-decoration: solid line-through
+		map-get($map: $colors, $key: "main");
+	text-decoration: solid line-through map-get($map: $colors, $key: "main");
+}

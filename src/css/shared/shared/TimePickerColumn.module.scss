@@ -1,0 +1,15 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.TimePickerColumn {
+	width: 33.33%;
+	height: 100%;
+	@include flex_row(center, flex-start);
+	overflow-y: auto;
+
+	&_inner {
+		width: 100%;
+		height: auto;
+	}
+}

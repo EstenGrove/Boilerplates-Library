@@ -1,0 +1,35 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.InfoIcon {
+	position: relative;
+	width: max-content;
+	height: max-content;
+	@include flex_row(center, center);
+
+	&_icon {
+		width: 2rem;
+		height: 2rem;
+		fill: map-get($map: $blueGreys, $key: "subheadings");
+		&:hover {
+			cursor: pointer;
+		}
+	}
+	&_tooltip {
+		position: absolute;
+		top: -3rem;
+		width: 12rem;
+		height: 3rem;
+		padding: 0.3rem;
+		overflow-y: scroll;
+		border-radius: 0.5rem;
+		background-color: hsla(0, 0, 0, 0.7);
+
+		&_text {
+			font-size: 1rem;
+			font-weight: 600;
+			color: #ffffff;
+		}
+	}
+}

@@ -1,0 +1,82 @@
+@import "../../sass/mixins";
+@import "../../sass/variables";
+@import "../../sass/custom";
+
+.Modal {
+	position: fixed;
+	display: block;
+	top: 50%;
+	left: 50%;
+	width: 80vw;
+	height: 70vh;
+	margin-left: -40vw;
+	margin-top: -35vh;
+	overflow-x: hidden;
+	overflow-y: scroll;
+	background-color: #ffffff;
+	font-family: $primary_font;
+	scrollbar-width: 0.8rem;
+	scrollbar-color: map-get($map: $blueGreys, $key: "subheadings");
+	border-radius: 1rem 1rem 1.5rem 1.5rem;
+	border-top: 5px solid map-get($map: $colors, $key: "main");
+	@include focusMode;
+	z-index: 30;
+
+	&::-webkit-scrollbar {
+		border-radius: 5rem;
+		width: 0.8rem;
+		// display: none;
+	}
+	&::-webkit-scrollbar-thumb {
+		width: 0.8rem;
+		border-radius: 5rem;
+		background-color: map-get($map: $blueGreys, $key: "subheadings");
+	}
+
+	&_top {
+		width: 100%;
+		height: 5rem;
+		padding: 1rem 2rem;
+		@include flex_row(space-between, center);
+
+		&_title {
+			font-size: 2.6rem;
+			font-weight: 800;
+			color: map-get($map: $blueGreys, $key: "headings");
+		}
+
+		&_icon {
+			width: 2.2rem;
+			height: 2.2rem;
+			fill: map-get($map: $colors, $key: "mainRed");
+			cursor: pointer;
+			-webkit-transition: all 0.2s ease;
+			transition: all 0.2s ease;
+
+			&:hover {
+				-webkit-transform: rotateZ(360deg);
+				transform: rotateZ(360deg);
+			}
+		}
+	}
+
+	&_main {
+		@include fill_container;
+		padding: 2rem 2rem;
+		padding-bottom: 4rem;
+	}
+}
+
+@media screen and (max-width: 500px) {
+	.Modal {
+		width: 95%;
+		height: 70vh;
+		@include add_center_focus(95%, 70vh); // width, height
+
+		&_top {
+			&_title {
+				font-size: 2rem;
+			}
+		}
+	}
+}

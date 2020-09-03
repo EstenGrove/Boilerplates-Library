@@ -1,0 +1,47 @@
+@import "../../sass/mixins";
+@import "../../sass/variables";
+
+.Badge {
+	max-width: -webkit-max-content;
+	max-width: -moz-max-content;
+	max-width: max-content;
+	max-height: -webkit-max-content;
+	max-height: -moz-max-content;
+	max-height: max-content;
+	border-radius: 5rem;
+	background-color: map-get($map: $colors, $key: "main");
+	color: map-get($map: $blueGreys, $key: "headings");
+
+	&:hover {
+		-webkit-box-shadow: map-get($map: $shadows, $key: "light");
+		box-shadow: map-get($map: $shadows, $key: "light");
+	}
+
+	&_XSM {
+		@extend .Badge;
+		padding: 0.3rem 0.6rem;
+		font-size: 1rem;
+		font-weight: 500;
+	}
+
+	&_SM {
+		@extend .Badge;
+		padding: 0.5rem 1rem;
+		font-size: 1.2rem;
+		font-weight: 600;
+	}
+
+	&_MD {
+		@extend .Badge;
+		padding: 0.7rem 1rem;
+		font-size: 1.6rem;
+		font-weight: 500;
+	}
+
+	&_LG {
+		@extend .Badge;
+		padding: 1.2rem 2.2rem;
+		font-size: 1.8rem;
+		font-weight: 600;
+	}
+}
