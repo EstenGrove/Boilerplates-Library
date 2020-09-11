@@ -2,7 +2,12 @@
 @import "../../sass/mixins";
 @import "../../sass/custom";
 
-.TextInput {
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.NumberInput {
+	position: relative;
 	width: 100%;
 	height: auto;
 	border-radius: 0.5rem;

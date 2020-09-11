@@ -1,157 +1,158 @@
 @import "../../sass/_mixins";
 @import "../../sass/_variables";
+@import "../../sass/custom";
 
 .Textarea {
-  width: 100%;
-  height: auto;
-  @include col_start_start;
-  margin-bottom: 2rem;
+	width: 100%;
+	height: auto;
+	@include flex_col(flex-start, flex-start);
+	margin-bottom: 2rem;
 
-  &_label {
-    font-size: 1.6em;
-    position: relative;
-    color: map-get($map: $blueGreys, $key: "subheadings");
+	&_label {
+		font-size: 1.6em;
+		position: relative;
+		color: map-get($map: $blueGreys, $key: "subheadings");
 
-    &_requiredFlag {
-      position: absolute;
-      top: 0;
-      left: 100%;
-      padding-left: 0.2rem;
-      color: map-get($map: $colors, $key: "mainRed");
-      opacity: 0.6;
-    }
-  }
+		&_requiredFlag {
+			position: absolute;
+			top: 0;
+			left: 100%;
+			padding-left: 0.2rem;
+			color: map-get($map: $colors, $key: "mainRed");
+			opacity: 0.6;
+		}
+	}
 
-  &_input {
-    @include fill_container;
-    height: 15rem;
-    resize: none;
-    padding: 1rem;
-    border-radius: 0.5rem;
-    border: none;
-    // border: 1px solid map-get($map: $blueGreys, $key: 'subheadings');
-    outline: none;
-    background-color: map-get($map: $colors, $key: "mainGrey");
-    font-size: 1.6rem;
-    overflow-y: auto;
+	&_input {
+		@include fill_container;
+		height: 15rem;
+		resize: none;
+		padding: 1rem;
+		border-radius: 0.5rem;
+		border: none;
+		// border: 1px solid map-get($map: $blueGreys, $key: 'subheadings');
+		outline: none;
+		background-color: map-get($map: $colors, $key: "mainGrey");
+		font-size: 1.6rem;
+		overflow-y: auto;
 
-    &:focus-within {
-      -webkit-box-sizing: map-get($map: $shadows, $key: "mainOutline");
-      box-sizing: map-get($map: $shadows, $key: "mainOutline");
-    }
+		&:focus-within {
+			-webkit-box-sizing: map-get($map: $shadows, $key: "mainOutline");
+			box-sizing: map-get($map: $shadows, $key: "mainOutline");
+		}
 
-    &::-webkit-input-placeholder {
-      font-size: 1.5rem;
-      font-weight: 300;
-      color: map-get($map: $blueGreys, $key: "subheadings");
-    }
+		&::-webkit-input-placeholder {
+			font-size: 1.5rem;
+			font-weight: 300;
+			color: map-get($map: $blueGreys, $key: "subheadings");
+		}
 
-    &:-ms-input-placeholder {
-      font-size: 1.5rem;
-      font-weight: 300;
-      color: map-get($map: $blueGreys, $key: "subheadings");
-    }
+		&:-ms-input-placeholder {
+			font-size: 1.5rem;
+			font-weight: 300;
+			color: map-get($map: $blueGreys, $key: "subheadings");
+		}
 
-    &::-ms-input-placeholder {
-      font-size: 1.5rem;
-      font-weight: 300;
-      color: map-get($map: $blueGreys, $key: "subheadings");
-    }
+		&::-ms-input-placeholder {
+			font-size: 1.5rem;
+			font-weight: 300;
+			color: map-get($map: $blueGreys, $key: "subheadings");
+		}
 
-    &::placeholder {
-      font-size: 1.5rem;
-      font-weight: 300;
-      color: map-get($map: $blueGreys, $key: "subheadings");
-    }
-  }
+		&::placeholder {
+			font-size: 1.5rem;
+			font-weight: 300;
+			color: map-get($map: $blueGreys, $key: "subheadings");
+		}
+	}
 }
 
 textarea:focus-within,
 textarea:hover {
-  -webkit-box-shadow: map-get($map: $shadows, $key: "mainOutline");
-  box-shadow: map-get($map: $shadows, $key: "mainOutline");
+	-webkit-box-shadow: map-get($map: $shadows, $key: "mainOutline");
+	box-shadow: map-get($map: $shadows, $key: "mainOutline");
 }
 
 .outOfChars {
-  color: map-get($map: $colors, $key: "mainRed");
-  -webkit-animation: flash 1.5s ease-in-out infinite both;
-  animation: flash 1.5s ease-in-out infinite both;
+	color: map-get($map: $colors, $key: "mainRed");
+	-webkit-animation: flash 1.5s ease-in-out infinite both;
+	animation: flash 1.5s ease-in-out infinite both;
 }
 
 @-webkit-keyframes flash {
-  from {
-    -webkit-transform: scale(1);
-    transform: scale(1);
-    -webkit-transform-origin: center center;
-    transform-origin: center center;
-    -webkit-animation-timing-function: ease-out;
-    animation-timing-function: ease-out;
-  }
+	from {
+		-webkit-transform: scale(1);
+		transform: scale(1);
+		-webkit-transform-origin: center center;
+		transform-origin: center center;
+		-webkit-animation-timing-function: ease-out;
+		animation-timing-function: ease-out;
+	}
 
-  10% {
-    -webkit-transform: scale(0.91);
-    transform: scale(0.91);
-    -webkit-animation-timing-function: ease-in;
-    animation-timing-function: ease-in;
-  }
+	10% {
+		-webkit-transform: scale(0.91);
+		transform: scale(0.91);
+		-webkit-animation-timing-function: ease-in;
+		animation-timing-function: ease-in;
+	}
 
-  17% {
-    -webkit-transform: scale(0.98);
-    transform: scale(0.98);
-    -webkit-animation-timing-function: ease-out;
-    animation-timing-function: ease-out;
-  }
+	17% {
+		-webkit-transform: scale(0.98);
+		transform: scale(0.98);
+		-webkit-animation-timing-function: ease-out;
+		animation-timing-function: ease-out;
+	}
 
-  33% {
-    -webkit-transform: scale(0.87);
-    transform: scale(0.87);
-    -webkit-animation-timing-function: ease-in;
-    animation-timing-function: ease-in;
-  }
+	33% {
+		-webkit-transform: scale(0.87);
+		transform: scale(0.87);
+		-webkit-animation-timing-function: ease-in;
+		animation-timing-function: ease-in;
+	}
 
-  45% {
-    -webkit-transform: scale(1);
-    transform: scale(1);
-    -webkit-animation-timing-function: ease-out;
-    animation-timing-function: ease-out;
-  }
+	45% {
+		-webkit-transform: scale(1);
+		transform: scale(1);
+		-webkit-animation-timing-function: ease-out;
+		animation-timing-function: ease-out;
+	}
 }
 
 @keyframes flash {
-  from {
-    -webkit-transform: scale(1);
-    transform: scale(1);
-    -webkit-transform-origin: center center;
-    transform-origin: center center;
-    -webkit-animation-timing-function: ease-out;
-    animation-timing-function: ease-out;
-  }
+	from {
+		-webkit-transform: scale(1);
+		transform: scale(1);
+		-webkit-transform-origin: center center;
+		transform-origin: center center;
+		-webkit-animation-timing-function: ease-out;
+		animation-timing-function: ease-out;
+	}
 
-  10% {
-    -webkit-transform: scale(0.91);
-    transform: scale(0.91);
-    -webkit-animation-timing-function: ease-in;
-    animation-timing-function: ease-in;
-  }
+	10% {
+		-webkit-transform: scale(0.91);
+		transform: scale(0.91);
+		-webkit-animation-timing-function: ease-in;
+		animation-timing-function: ease-in;
+	}
 
-  17% {
-    -webkit-transform: scale(0.98);
-    transform: scale(0.98);
-    -webkit-animation-timing-function: ease-out;
-    animation-timing-function: ease-out;
-  }
+	17% {
+		-webkit-transform: scale(0.98);
+		transform: scale(0.98);
+		-webkit-animation-timing-function: ease-out;
+		animation-timing-function: ease-out;
+	}
 
-  33% {
-    -webkit-transform: scale(0.87);
-    transform: scale(0.87);
-    -webkit-animation-timing-function: ease-in;
-    animation-timing-function: ease-in;
-  }
+	33% {
+		-webkit-transform: scale(0.87);
+		transform: scale(0.87);
+		-webkit-animation-timing-function: ease-in;
+		animation-timing-function: ease-in;
+	}
 
-  45% {
-    -webkit-transform: scale(1);
-    transform: scale(1);
-    -webkit-animation-timing-function: ease-out;
-    animation-timing-function: ease-out;
-  }
+	45% {
+		-webkit-transform: scale(1);
+		transform: scale(1);
+		-webkit-animation-timing-function: ease-out;
+		animation-timing-function: ease-out;
+	}
 }

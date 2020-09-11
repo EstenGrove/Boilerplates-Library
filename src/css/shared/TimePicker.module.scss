@@ -1,5 +1,6 @@
 @import "../../sass/variables";
 @import "../../sass/mixins";
+@import "../../sass/custom";
 
 .TimePicker {
 	width: 20rem;
@@ -19,7 +20,7 @@
 		height: -webkit-max-content;
 		height: -moz-max-content;
 		height: max-content;
-		@include row_center_all;
+		@include flex_row(center, center);
 
 		&_input {
 			position: relative;

@@ -1,14 +1,13 @@
 @import "../../sass/mixins";
 @import "../../sass/variables";
+@import "../../sass/custom";
 
 .CheckboxSM {
 	width: -webkit-max-content;
 	width: -moz-max-content;
 	width: max-content;
 	position: relative;
-	margin-bottom: 2rem;
-	@include row_start_center;
-	margin-bottom: 2rem;
+	@include flex_row(flex-start, center);
 
 	&_checkbox {
 		width: 1rem;
@@ -17,7 +16,7 @@
 	}
 
 	&_label {
-		margin-left: 1rem;
+		margin-left: 0.7rem;
 		font-size: 1.2rem;
 		cursor: pointer;
 
@@ -34,7 +33,7 @@
 			position: absolute;
 			display: block;
 			content: "";
-			top: 0.2rem;
+			top: 0;
 			left: 0;
 			border: 1px solid #777;
 			border-radius: 0.5rem;
@@ -55,7 +54,7 @@
 			content: "✓";
 			font-size: 1.2rem;
 			font-weight: bold;
-			top: 0;
+			top: -0.2rem;
 			left: 0.1rem;
 			border-radius: 0.5rem;
 			color: #fff;

@@ -1,5 +1,6 @@
-@import "../../sass/mixins";
 @import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
 
 .Checkbox {
 	width: -webkit-max-content;
@@ -7,7 +8,7 @@
 	width: max-content;
 	position: relative;
 	margin-bottom: 2rem;
-	@include row_start_center;
+	@include flex_row(flex-start, center);
 	margin-bottom: 2rem;
 
 	&_checkbox {

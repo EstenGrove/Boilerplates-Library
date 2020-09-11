@@ -1,5 +1,6 @@
 @import "../../sass/variables";
 @import "../../sass/mixins";
+@import "../../sass/custom";
 
 .MonthPickerCalendar {
 	position: absolute;
@@ -12,14 +13,22 @@
 	background-color: #ffffff;
 	box-shadow: map-get($map: $shadows, $key: "raised");
 
+	&_focusMode {
+		@extend .MonthPickerCalendar;
+		@include focusMode;
+		margin-left: -15rem;
+		margin-top: -15rem;
+		z-index: 50;
+	}
+
 	&_top {
 		width: 100%;
 		height: auto;
 		margin-bottom: 2rem;
-		@include row_between_center;
+		@include flex_row(space-between, center);
 
 		&_heading {
-			@include row_start_center;
+			@include flex_row(flex-start, center);
 
 			&_month {
 				font-size: 1.6rem;
@@ -67,7 +76,7 @@
 	&_today {
 		width: 100%;
 		height: 4rem;
-		@include row_center_all;
+		@include flex_row(center, center);
 
 		&_btn {
 			background-color: transparent;

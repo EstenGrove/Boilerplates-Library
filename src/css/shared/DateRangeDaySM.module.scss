@@ -1,5 +1,6 @@
 @import "../../sass/variables";
 @import "../../sass/mixins";
+@import "../../sass/custom";
 
 .DateRangeDaySM {
 	width: 2.5rem;
@@ -14,7 +15,7 @@
 
 	&_entry {
 		@include fill_container;
-		@include row_center_all;
+		@include flex_row(center, center);
 		font-size: 1.2rem;
 		font-weight: 400;
 	}
@@ -33,5 +34,19 @@
 		@extend .DateRangeDaySM;
 		background-color: map-get($map: $colors, $key: "mainGrey");
 		opacity: 0.6;
+	}
+	&_isRestricted {
+		@extend .DateRangeDaySM;
+		background-color: map-get($map: $colors, $key: "mainGrey");
+		opacity: 0.4;
+		cursor: not-allowed;
+	}
+	&_isRestrictedAndToday {
+		@extend .DateRangeDaySM;
+		background-color: map-get($map: $flatColors, $key: "main");
+		border-radius: 50%;
+		color: #ffffff;
+		opacity: 0.4;
+		cursor: not-allowed;
 	}
 }

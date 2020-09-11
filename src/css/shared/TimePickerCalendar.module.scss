@@ -1,5 +1,6 @@
 @import "../../sass/variables";
 @import "../../sass/mixins";
+@import "../../sass/custom";
 
 .TimePickerCalendar {
 	position: absolute;
@@ -10,6 +11,12 @@
 	padding: 1rem 0;
 	border-radius: 0.5rem;
 	background-color: #ffffff;
-	@include row_between_start;
+	@include flex_row(space-between, flex-start);
 	box-shadow: map-get($map: $shadows, $key: "raised");
+	z-index: 5;
+
+	&_focusMode {
+		@extend .TimePickerCalendar;
+		@include focusMode;
+	}
 }

@@ -1,12 +1,13 @@
 @import "../../sass/mixins";
 @import "../../sass/variables";
+@import "../../sass/custom";
 
 .YearPickerYear {
 	width: 100%;
 	height: 100%;
 	border: 1px solid #ccc;
 	border-radius: 0.5rem;
-	@include col_center_all;
+	@include flex_col(center, center);
 
 	&_year {
 		font-size: 1.4rem;

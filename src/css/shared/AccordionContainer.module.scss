@@ -1,0 +1,14 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.AccordionContainer {
+	@include fill_container;
+	height: auto;
+	min-height: 8rem;
+	@include flex_col(flex-start, flex-start);
+	border-radius: 0.5rem;
+	box-shadow: map-get($map: $shadows, $key: "subtle");
+	background-color: #ffffff;
+	transition: height 0.5s ease-in-out;
+}

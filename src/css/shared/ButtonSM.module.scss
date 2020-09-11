@@ -1,30 +1,32 @@
 @import "../../sass/mixins";
 @import "../../sass/variables";
+@import "../../sass/custom";
 
 .ButtonSM {
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  border: none;
-  outline: none;
-  font-size: 1.2rem;
-  font-weight: 500;
-  background-color: map-get($map: $colors, $key: "main");
-  color: #ffffff;
-  @include row_center_all;
+	padding: 0.5rem 1rem;
+	border-radius: 0.5rem;
+	border: none;
+	outline: none;
+	font-size: 1.2rem;
+	font-weight: 500;
+	background-color: map-get($map: $colors, $key: "main");
+	color: #ffffff;
+	@include flex_row(center, center);
 
-  &:hover {
-    cursor: pointer;
-    -webkit-box-shadow: map-get($map: $shadows, $key: "mainOutline");
-    box-shadow: map-get($map: $shadows, $key: "mainOutline");
-  }
+	&:hover {
+		cursor: pointer;
+		-webkit-box-shadow: map-get($map: $shadows, $key: "mainOutline");
+		box-shadow: map-get($map: $shadows, $key: "mainOutline");
+	}
 
-  &:focus-within {
-    cursor: pointer;
-    -webkit-box-shadow: map-get($map: $shadows, $key: "mainOutline");
-    box-shadow: map-get($map: $shadows, $key: "mainOutline");
-  }
+	&:focus-within {
+		cursor: pointer;
+		-webkit-box-shadow: map-get($map: $shadows, $key: "mainOutline");
+		box-shadow: map-get($map: $shadows, $key: "mainOutline");
+	}
 
-  &:disabled {
-    opacity: 0.4;
-  }
+	&:disabled {
+		opacity: 0.4;
+		cursor: not-allowed;
+	}
 }

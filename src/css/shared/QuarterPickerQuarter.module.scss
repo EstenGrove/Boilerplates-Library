@@ -1,10 +1,11 @@
 @import "../../sass/variables";
 @import "../../sass/mixins";
+@import "../../sass/custom";
 
 .QuarterPickerQuarter {
 	width: 100%;
 	height: 100%;
-	@include col_center_all;
+	@include flex_col(center, center);
 	border: 1px solid #ccc;
 	border-radius: 0.5rem;
 

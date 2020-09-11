@@ -1,11 +1,12 @@
 @import "../../sass/variables";
 @import "../../sass/mixins";
+@import "../../sass/custom";
 
 .MonthPickerMonth {
 	width: 100%;
 	height: 100%;
 	padding: 0.5rem 1rem;
-	@include row_center_all;
+	@include flex_row(center, center);
 	border: 1px solid #ccc;
 	border-radius: 0.5rem;
 	&:hover {

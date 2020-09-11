@@ -1,0 +1,26 @@
+@import "../../sass/mixins";
+@import "../../sass/variables";
+@import "../../sass/animations";
+
+.SpinnerSM {
+	display: block;
+	width: 1.5rem;
+	height: 1.5rem;
+	margin-right: 0.5rem;
+	border: 2px solid rgba(255, 255, 255, 0);
+	border-top-color: map-get($map: $colors, $key: "main");
+	border-radius: 50%;
+	animation: spin 1s linear infinite;
+	-webkit-animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+	to {
+		-webkit-transform: rotate(360deg);
+	}
+}
+@-webkit-keyframes spin {
+	to {
+		-webkit-transform: rotate(360deg);
+	}
+}

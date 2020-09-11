@@ -1,5 +1,6 @@
 @import "../../sass/variables";
 @import "../../sass/mixins";
+@import "../../sass/custom";
 
 .DateRangeCalendarSM {
 	position: absolute;
@@ -27,7 +28,7 @@
 		height: -moz-max-content;
 		height: max-content;
 		padding: 0.5rem 0.3rem;
-		@include row_between_center;
+		@include flex_row(space-between, center);
 		margin-bottom: 1.8rem;
 
 		&_heading {
@@ -45,7 +46,7 @@
 			width: -moz-max-content;
 			width: max-content;
 			height: 100%;
-			@include row_evenly_center;
+			@include flex_row(space-evenly, center);
 
 			&_chevron {
 				width: 2rem;
@@ -88,7 +89,7 @@
 		width: 100%;
 		height: 4rem;
 		padding: 1rem 0;
-		@include row_center_all;
+		@include flex_row(center, center);
 
 		&_btn {
 			border: none;

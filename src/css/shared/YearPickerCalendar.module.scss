@@ -1,5 +1,6 @@
 @import "../../sass/mixins";
 @import "../../sass/variables";
+@import "../../sass/custom";
 
 .YearPickerCalendar {
 	position: absolute;
@@ -11,15 +12,16 @@
 	border-radius: 0.5rem;
 	background-color: #ffffff;
 	box-shadow: map-get($map: $shadows, $key: "raised");
+	z-index: 5;
 
 	&_top {
 		width: 100%;
 		height: auto;
 		margin-bottom: 3rem;
-		@include row_between_center;
+		@include flex_row(space-between, center);
 
 		&_heading {
-			@include row_start_center;
+			@include flex_row(flex-start, center);
 
 			&_year {
 				font-size: 1.6rem;

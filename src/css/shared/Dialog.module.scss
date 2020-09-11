@@ -1,5 +1,6 @@
 @import "../../sass/variables";
 @import "../../sass/mixins";
+@import "../../sass/custom";
 
 .Dialog {
 	position: fixed;
@@ -12,24 +13,23 @@
 	margin-top: -12.5rem;
 	border-radius: 1rem;
 	background-color: #ffffff;
-	box-shadow: map-get($map: $shadows, $key: "focus");
+	box-shadow: map-get($map: $shadows, $key: "focusMode");
 
 	&_top {
 		position: relative;
 		width: 100%;
 		height: 8rem;
 		padding: 2rem 2rem;
-		@include row_start_start;
+		@include flex_row(flex-start, flex-start);
 
 		&_iconWrapper {
 			width: max-content;
 			height: max-content;
 			padding: 0.8rem;
-			border-radius: 50%;
+			border-radius: 150%;
 			background-color: map-get($map: $flatColors, $key: "mainRed");
 			box-shadow: map-get($map: $shadows, $key: "subtle");
-			@include row_center_all;
-			align-self: center;
+			@include flex_row(center, flex-start);
 
 			&_icon {
 				width: 3rem;
@@ -64,7 +64,6 @@
 		padding-left: 7rem;
 		padding-right: 2rem;
 		margin-bottom: 2rem;
-		overflow-y: auto;
 
 		&_heading {
 			font-size: 1.8rem;
@@ -78,16 +77,12 @@
 		}
 	}
 	&_bottom {
-		position: absolute;
-		bottom: 0;
-		left: 0;
 		width: 100%;
 		height: 7rem;
 		border-radius: 0 0 1rem 1rem;
 		padding: 1rem 2rem;
-		@include row_end_end;
+		@include flex_row(flex-end, flex-end);
 		background-color: map-get($map: $blueGreys, $key: "light");
-		z-index: 20;
 	}
 }
 
