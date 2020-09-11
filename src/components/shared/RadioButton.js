@@ -8,7 +8,7 @@ const RadioButton = ({
 	id,
 	val,
 	handleSelection,
-	handleRadio
+	handleRadio,
 }) => {
 	return (
 		<section className={styles.RadioButton}>
@@ -16,7 +16,7 @@ const RadioButton = ({
 				type="radio"
 				name={name}
 				id={id}
-				value={val}
+				checked={val}
 				onChange={handleRadio}
 				onClick={!handleSelection ? null : () => handleSelection(id)}
 				className={styles.RadioButton_radio}
@@ -35,7 +35,7 @@ RadioButton.propTypes = {
 	label: PropTypes.string.isRequired,
 	name: PropTypes.string.isRequired,
 	id: PropTypes.string.isRequired,
-	val: PropTypes.string.isRequired,
+	val: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired,
 	handleSelection: PropTypes.func, // used for radio button groups
-	handleRadio: PropTypes.func // used for single radio buttons
+	handleRadio: PropTypes.func, // used for single radio buttons
 };

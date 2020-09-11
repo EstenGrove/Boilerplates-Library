@@ -2,10 +2,17 @@ import React, { useState, useEffect } from "react";
 import { PropTypes } from "prop-types";
 import { isEmptyVal } from "../../helpers/utils_types";
 import { useDates, quarters } from "../../utils/useDates";
+import { format } from "date-fns";
 import styles from "../../css/shared/QuarterPicker.module.scss";
 import sprite from "../../assets/icon-bar.svg";
 import QuarterPickerCalendar from "./QuarterPickerCalendar";
-import { getQuarter } from "date-fns";
+
+// BUG(s):
+// 1. "jumpToTodayHandler()" doesn't include the year - DONE ✅
+
+const getCurrentQuarter = () => {
+	return `Q${format(new Date(), "Q")} ${format(new Date(), "YYYY")}`;
+};
 
 const QuarterPicker = ({
 	label,
@@ -13,7 +20,8 @@ const QuarterPicker = ({
 	id,
 	placeholder,
 	val,
-	handleQuarter
+	handleQuarter,
+	focusMode = false
 }) => {
 	const {
 		globalDates,
@@ -22,21 +30,21 @@ const QuarterPicker = ({
 		jumpToToday,
 		setQuarterFromString
 	} = useDates();
-	const { year, quarter, today } = globalDates;
+	const { year, quarter } = globalDates;
 	const [showCalendar, setShowCalendar] = useState(false);
 
 	const quarterSelectHandler = qtr => {
 		setQuarterFromString(qtr);
-		handleQuarter(qtr);
+		handleQuarter(name, qtr + ` ${year}`);
 	};
 
 	const clearDate = () => {
-		handleQuarter("");
+		handleQuarter(name, "");
 	};
 
 	const jumpToTodayHandler = () => {
 		jumpToToday();
-		handleQuarter(quarters[getQuarter(today) - 1]);
+		handleQuarter(name, getCurrentQuarter());
 	};
 
 	// closes the calendar once a selection is made
@@ -64,7 +72,7 @@ const QuarterPicker = ({
 				type="text"
 				name={name}
 				id={id}
-				value={isEmptyVal(val) ? "" : val + ` ${year}`}
+				value={val}
 				onChange={quarterSelectHandler}
 				onClick={() => setShowCalendar(!showCalendar)}
 				className={styles.QuarterPicker_input}
@@ -92,6 +100,7 @@ const QuarterPicker = ({
 					handleQuarter={quarterSelectHandler}
 					jumpToToday={jumpToTodayHandler}
 					closeCalendar={() => setShowCalendar(false)}
+					focusMode={focusMode}
 				/>
 			)}
 		</article>

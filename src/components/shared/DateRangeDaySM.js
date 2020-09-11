@@ -15,14 +15,21 @@ const DateRangeDaySM = ({
 	isMonthStart = false,
 	inRange = false, //
 	isSelectedDate = false,
+	isRestricted = false,
 	day,
-	handleSelection
+	handleSelection,
 }) => {
 	// since it's 0-based you must add 1
 	// used to start set the start point on the grid for the month
 	const monthStartIndex = Number(format(day, "d")) + 1;
 
 	const handleStyles = () => {
+		if (isRestricted && !isToday) {
+			return styles.DateRangeDaySM_isRestricted;
+		}
+		if (isRestricted && isToday) {
+			return styles.DateRangeDaySM_isRestrictedAndToday;
+		}
 		if (isToday) {
 			return styles.DateRangeDaySM_isToday;
 		}
@@ -52,12 +59,14 @@ DateRangeDaySM.defaultProps = {
 	isToday: false,
 	isMonthStart: false,
 	isInRange: false,
-	isSelectedDate: false
+	isSelectedDate: false,
+	isRestricted: false,
 };
 
 DateRangeDaySM.propTypes = {
 	day: PropTypes.instanceOf(Date),
 	isToday: PropTypes.bool.isRequired,
 	isMonthStart: PropTypes.bool.isRequired,
-	handleSelection: PropTypes.func.isRequired
+	isRestricted: PropTypes.bool.isRequired,
+	handleSelection: PropTypes.func.isRequired,
 };

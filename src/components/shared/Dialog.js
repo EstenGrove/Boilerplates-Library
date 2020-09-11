@@ -13,8 +13,10 @@ import { DIALOG_ICONS as icons, themeColors } from "../../helpers/utils_styles";
 const WRAP_COLORS = {
 	ERROR: themeColors.flat.red,
 	WARN: themeColors.flat.red,
+	WARN2: themeColors.flat.red,
 	SUCCESS: themeColors.flat.green,
 	INFO: themeColors.flat.purple,
+	REPORT: themeColors.flat.purple,
 	PRINT: themeColors.blueGreys.main,
 	SAVE: themeColors.flat.green,
 	CHECKMARK: themeColors.flat.purple,
@@ -30,15 +32,17 @@ const WRAP_COLORS = {
 	SETTINGS: themeColors.flat.purple,
 	ALERT: themeColors.flat.red,
 	SHOW: themeColors.flat.violet,
-	IMAGES: themeColors.flat.purple
+	IMAGES: themeColors.flat.purple,
 };
 
 // CUSTOM STYLES/FILL FOR ICON, BASED OFF ICON TYPE
 const ICON_COLORS = {
 	ERROR: themeColors.main.red,
 	WARN: themeColors.main.red,
+	WARN2: themeColors.main.red,
 	SUCCESS: themeColors.main.green,
 	INFO: themeColors.main.main,
+	REPORT: themeColors.main.main,
 	PRINT: themeColors.main.blackBlue,
 	SAVE: themeColors.blueGreys.headings,
 	CHECKMARK: themeColors.main.main,
@@ -54,7 +58,7 @@ const ICON_COLORS = {
 	SETTINGS: themeColors.main.blackBlue,
 	ALERT: themeColors.main.red,
 	SHOW: themeColors.main.main,
-	IMAGES: themeColors.main.main
+	IMAGES: themeColors.main.main,
 };
 
 const Dialog = ({
@@ -64,7 +68,7 @@ const Dialog = ({
 	text,
 	closeModal,
 	icon = "SUCCESS",
-	children
+	children,
 }) => {
 	const modalRef = useRef();
 	const { isOutside } = useOutsideClick(modalRef);
@@ -127,5 +131,5 @@ Dialog.propTypes = {
 	subheading: PropTypes.string,
 	text: PropTypes.string,
 	closeModal: PropTypes.func.isRequired,
-	children: PropTypes.any
+	children: PropTypes.any,
 };

@@ -15,7 +15,7 @@ const OptionsMenu = ({
 	handleSelectionByKey,
 	handleFocus,
 	hasFocus,
-	options = []
+	options = [],
 }) => {
 	const menuRef = useRef();
 	const { isOutside } = useOutsideClick(menuRef);
@@ -66,7 +66,8 @@ const CustomDropdown = ({
 	placeholder,
 	selection,
 	setSelection,
-	customStyles = {}
+	autoFocus = false,
+	customStyles = {},
 }) => {
 	const inputRef = useRef();
 	const [showOptions, setShowOptions] = useState(false); // menu options
@@ -81,17 +82,17 @@ const CustomDropdown = ({
 
 	// sets active focused item
 	// allows custom focus styles to be applied
-	const handleFocus = option => {
+	const handleFocus = (option) => {
 		setHasFocus(option);
 	};
 
 	// handles checking for a match
 	// setting the selection when an option is focused and the
 	// "ENTER" key is pressed
-	const handleSelectionByKey = e => {
+	const handleSelectionByKey = (e) => {
 		const currentEl = e.target.textContent;
 
-		const hasMatch = val => {
+		const hasMatch = (val) => {
 			return listOptions.includes(val);
 		};
 		if (hasMatch(currentEl) && e.key === ENTER) {
@@ -104,12 +105,21 @@ const CustomDropdown = ({
 	};
 
 	// handles "onChange" search
-	const handleSearch = e => {
+	// if 'selection' exists, then clear it and continue w/ 'handleSearch', as normal
+	const handleSearch = (e) => {
 		const { value } = e.target;
-		setSearchVal(value);
-		setListOptions([
-			...options.filter(x => x.toLowerCase().includes(value.toLowerCase()))
-		]);
+		if (!isEmptyVal(selection)) {
+			clearSelection();
+			setSearchVal(value);
+			return setListOptions([
+				...options.filter((x) => x.toLowerCase().includes(value.toLowerCase())),
+			]);
+		} else {
+			setSearchVal(value);
+			setListOptions([
+				...options.filter((x) => x.toLowerCase().includes(value.toLowerCase())),
+			]);
+		}
 	};
 
 	const clearSelection = () => {
@@ -151,6 +161,7 @@ const CustomDropdown = ({
 					className={styles.CustomDropdown_inputWrapper_input}
 					style={customStyles}
 					autoComplete="off"
+					autoFocus={autoFocus}
 				/>
 				{showOptions && (
 					<OptionsMenu
@@ -166,7 +177,9 @@ const CustomDropdown = ({
 
 				<svg
 					className={styles.CustomDropdown_closeIcon}
-					onClick={() => clearSelection(name)}
+					onClick={() =>
+						isEmptyVal(selection) ? setShowOptions(true) : clearSelection(name)
+					}
 				>
 					<use
 						xlinkHref={`${sprite}#icon-${
@@ -182,7 +195,7 @@ const CustomDropdown = ({
 export default CustomDropdown;
 
 CustomDropdown.defaultProps = {
-	options: []
+	options: [],
 };
 
 CustomDropdown.propTypes = {
@@ -191,15 +204,15 @@ CustomDropdown.propTypes = {
 	label: PropTypes.string,
 	options: PropTypes.array,
 	selection: PropTypes.string.isRequired, // input state value
-	setSelection: PropTypes.func.isRequired // state setter for input
+	setSelection: PropTypes.func.isRequired, // state setter for input
 };
 
 OptionsMenu.defaultProps = {
-	options: []
+	options: [],
 };
 OptionsMenu.defaultProps = {
 	name: PropTypes.string.isRequired,
 	closeHandler: PropTypes.func.isRequired,
 	handleSelection: PropTypes.func.isRequired, // "onClick" handler for value selection
-	options: PropTypes.array.isRequired // menu options
+	options: PropTypes.array.isRequired, // menu options
 };

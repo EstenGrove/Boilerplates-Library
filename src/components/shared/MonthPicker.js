@@ -7,7 +7,19 @@ import styles from "../../css/shared/MonthPicker.module.scss";
 import sprite from "../../assets/icon-bar.svg";
 import MonthPickerCalendar from "./MonthPickerCalendar";
 
-const MonthPicker = ({ label, name, id, placeholder, val, handleMonth }) => {
+// UPDATED AS OF 3/14/2020 ✅
+// UPDATED "handleMonth" SETTER TO SUPPORT MORE FLEXIBLE OPTIONS
+// NOW CAN WILL WORK WITH "useForm" AND OTHER OBJECT-BASED STATE SETTERS
+
+const MonthPicker = ({
+	label,
+	name,
+	id,
+	placeholder,
+	val,
+	handleMonth,
+	focusMode = false
+}) => {
 	const {
 		globalDates,
 		getNextMonth,
@@ -23,19 +35,19 @@ const MonthPicker = ({ label, name, id, placeholder, val, handleMonth }) => {
 	// sets the value in "useDates" hook and in the text input
 	const monthSelectHandler = month => {
 		setMonthFromString(month);
-		handleMonth(month);
+		handleMonth(name, month + ` ${year}`);
 	};
 
 	// sets & formats the current month
 	// updates the "useDates" hook accordingly
 	const jumpToTodayHandler = () => {
-		handleMonth(format(today, "MMM"));
+		handleMonth(name, format(today, "MMM") + ` ${year}`);
 		jumpToToday();
 	};
 
 	// clears the text input when "x" is clicked
 	const clearDate = () => {
-		handleMonth("");
+		handleMonth(name, "");
 	};
 
 	// closes the calendar once a selection is made
@@ -65,7 +77,7 @@ const MonthPicker = ({ label, name, id, placeholder, val, handleMonth }) => {
 				id={id}
 				className={styles.MonthPicker_input}
 				placeholder={placeholder}
-				value={isEmptyVal(val) ? "" : val + ` ${year}`}
+				value={val}
 				readOnly
 				onChange={handleMonth}
 				onClick={() => setShowCalendar(!showCalendar)}
@@ -91,6 +103,7 @@ const MonthPicker = ({ label, name, id, placeholder, val, handleMonth }) => {
 					jumpToToday={jumpToTodayHandler}
 					handleMonth={monthSelectHandler}
 					closeCalendar={() => setShowCalendar(false)}
+					focusMode={focusMode}
 				/>
 			)}
 		</article>

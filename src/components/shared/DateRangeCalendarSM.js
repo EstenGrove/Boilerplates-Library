@@ -5,6 +5,7 @@ import DateRangeDaySM from "./DateRangeDaySM";
 import { PropTypes } from "prop-types";
 import { useOutsideClick } from "../../utils/useOutsideClick";
 import { days as weekDays } from "../../utils/useDates";
+import { isRestricted } from "../../helpers/utils_dates";
 import { format, isSameDay, isWithinRange } from "date-fns";
 
 const checkForMatch = (start, end, day) => {
@@ -30,7 +31,8 @@ const DateRangeCalendarSM = ({
 	jumpToToday,
 	closeCalendar,
 	showDays = true,
-	focusMode
+	focusMode = false,
+	restrictions = {},
 }) => {
 	const rangeCalendarRef = useRef();
 	const { isOutside } = useOutsideClick(rangeCalendarRef);
@@ -48,6 +50,8 @@ const DateRangeCalendarSM = ({
 			isMounted = false;
 		};
 	}, [isOutside, closeCalendar]);
+
+	const { isActive, rangeStart, rangeEnd } = restrictions;
 
 	return (
 		<article
@@ -79,7 +83,7 @@ const DateRangeCalendarSM = ({
 			</nav>
 			{showDays && (
 				<section className={styles.DateRangeCalendarSM_weekDays}>
-					{weekDays.map(day => (
+					{weekDays.map((day) => (
 						<span key={day}>{day}</span>
 					))}
 				</section>
@@ -96,11 +100,15 @@ const DateRangeCalendarSM = ({
 							day={day}
 							isSelectedGroup={false} // needs to be written
 							handleSelection={() => handleSelection(day)}
+							isRestricted={
+								!isActive ? false : isRestricted(day, rangeStart, rangeEnd)
+							}
 						/>
 					))}
 			</section>
 			<section className={styles.DateRangeCalendarSM_today}>
 				<button
+					type="button"
 					className={styles.DateRangeCalendarSM_today_btn}
 					title="Jump to Today"
 					onClick={jumpToToday}
@@ -115,7 +123,8 @@ const DateRangeCalendarSM = ({
 export default DateRangeCalendarSM;
 
 DateRangeCalendarSM.defaultProps = {
-	showDays: true
+	showDays: true,
+	restrictions: {},
 };
 
 DateRangeCalendarSM.propTypes = {
@@ -131,5 +140,16 @@ DateRangeCalendarSM.propTypes = {
 	jumpToToday: PropTypes.func.isRequired,
 	closeCalendar: PropTypes.func.isRequired,
 	showDays: PropTypes.bool,
-	focusMode: PropTypes.bool
+	focusMode: PropTypes.bool,
+	restrictions: PropTypes.shape({
+		isActive: PropTypes.bool,
+		rangeStart: PropTypes.oneOfType([
+			PropTypes.string,
+			PropTypes.instanceOf(Date),
+		]),
+		rangeEnd: PropTypes.oneOfType([
+			PropTypes.string,
+			PropTypes.instanceOf(Date),
+		]),
+	}),
 };

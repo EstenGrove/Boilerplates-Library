@@ -7,6 +7,9 @@ import { useDates } from "../../utils/useDates";
 import { isEmptyVal } from "../../helpers/utils_types";
 import { format, isBefore } from "date-fns";
 
+// ##TODOS:
+// - Add 'Range Restriction' support ✓
+
 // REQUIREMENTS FOR PROPS
 // 1. MUST PROVIDE "startName" & "endName"
 // 2. MUST PROVIDE THE STATE VALUES FOR (start and end dates) (ie "rangeVals")
@@ -19,37 +22,38 @@ const DateRangePickerSM = ({
 	endName,
 	rangeVals,
 	handleSelection,
-	focusMode = false
+	focusMode = false,
+	isDisabled = false,
+	restrictions = {},
 }) => {
 	const { globalDates, getNextMonth, getPrevMonth, jumpToToday } = useDates();
 	const { month, year, today } = globalDates;
 	const [showCalendar, setShowCalendar] = useState(false);
-	const [isBeforeError, setIsBeforeError] = useState(false);
+	const [isBeforeError, setIsBeforeError] = useState(false); // triggers 'End date MUST be after start date' error alert
 
-	const jumpToTodayHandler = () => {
+	const jumpToTodayHandler = (e) => {
 		if (isEmptyVal(rangeVals[startName])) {
 			handleSelection({
 				[startName]: format(today, "MM/DD/YYYY"),
-				[endName]: ""
+				[endName]: "",
 			});
 			return jumpToToday();
 		}
 		handleSelection({
 			...rangeVals,
-			[endName]: format(today, "MM/DD/YYYY")
+			[endName]: format(today, "MM/DD/YYYY"),
 		});
 		return jumpToToday();
 	};
-
 	// handles click selection
 	// if start date is empty, then sets the start date first
 	// if start date is filled then sets the end date
 	// if the end date is "before" the start date, it returns an alert
-	const selectionHandler = date => {
+	const selectionHandler = (date) => {
 		if (isEmptyVal(rangeVals[startName])) {
 			return handleSelection({
 				[startName]: format(date, "MM/DD/YYYY"),
-				[endName]: ""
+				[endName]: "",
 			});
 		}
 		if (isBefore(format(date, "MM/DD/YYYY"), rangeVals[startName])) {
@@ -58,17 +62,18 @@ const DateRangePickerSM = ({
 		setIsBeforeError(false);
 		return handleSelection({
 			...rangeVals,
-			[endName]: format(date, "MM/DD/YYYY")
+			[endName]: format(date, "MM/DD/YYYY"),
 		});
 	};
-
+	// clears out selections
 	const clearVals = () => {
 		handleSelection({
 			[startName]: "",
-			[endName]: ""
+			[endName]: "",
 		});
 	};
 
+	// closes calendar when range is selected
 	useEffect(() => {
 		if (!isEmptyVal(rangeVals[startName]) && !isEmptyVal(rangeVals[endName])) {
 			return setShowCalendar(false);
@@ -116,7 +121,9 @@ const DateRangePickerSM = ({
 					<svg
 						className={styles.DateRangePickerSM_inputs_icon}
 						onClick={
-							isEmptyVal(rangeVals[startName]) ? null : () => clearVals()
+							isEmptyVal(rangeVals[startName])
+								? () => setShowCalendar(true)
+								: () => clearVals()
 						}
 					>
 						<use
@@ -126,7 +133,7 @@ const DateRangePickerSM = ({
 						/>
 					</svg>
 
-					{showCalendar && (
+					{showCalendar && !isDisabled && (
 						<DateRangeCalendarSM
 							startDate={rangeVals[startName]}
 							endDate={rangeVals[endName]}
@@ -139,6 +146,7 @@ const DateRangePickerSM = ({
 							handleSelection={selectionHandler}
 							closeCalendar={() => setShowCalendar(false)}
 							focusMode={focusMode}
+							restrictions={restrictions}
 						/>
 					)}
 				</div>
@@ -149,7 +157,14 @@ const DateRangePickerSM = ({
 
 export default DateRangePickerSM;
 
-DateRangePickerSM.defaultProps = {};
+DateRangePickerSM.defaultProps = {
+	isDisabled: false,
+	restrictions: {
+		isActive: false,
+		rangeStart: "",
+		rangeEnd: "",
+	},
+};
 
 DateRangePickerSM.propTypes = {
 	label: PropTypes.string,
@@ -157,5 +172,17 @@ DateRangePickerSM.propTypes = {
 	startName: PropTypes.string.isRequired,
 	endName: PropTypes.string.isRequired,
 	rangeVals: PropTypes.object.isRequired,
-	handleSelection: PropTypes.func.isRequired
+	handleSelection: PropTypes.func.isRequired,
+	isDisabled: PropTypes.bool,
+	restrictions: PropTypes.shape({
+		isActive: PropTypes.bool,
+		rangeStart: PropTypes.oneOfType([
+			PropTypes.string,
+			PropTypes.instanceOf(Date),
+		]),
+		rangeEnd: PropTypes.oneOfType([
+			PropTypes.string,
+			PropTypes.instanceOf(Date),
+		]),
+	}),
 };

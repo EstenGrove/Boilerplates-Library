@@ -13,16 +13,13 @@ const generateYearRange = (startYear, endYear) => {
 	return range(startYear, endYear, x => x + 1);
 };
 
-// REQUIREMENTS:
-// 1. WIRE UP "getNextYear" & "getPrevYear" HANDLERS
-
 const YearPicker = ({
 	label,
 	name,
 	id,
 	placeholder,
-	startYear,
-	endYear,
+	startYear = 2010,
+	endYear = 2020,
 	val,
 	handleYear
 }) => {
@@ -31,19 +28,23 @@ const YearPicker = ({
 
 	const getNextYear = () => {
 		if (val < endYear) {
-			return handleYear(val + 1);
+			return handleYear(name, val + 1);
 		}
-		return handleYear(val);
+		return handleYear(name, val);
 	};
 	const getPrevYear = () => {
 		if (val > startYear + 1) {
-			return handleYear(val - 1);
+			return handleYear(name, val - 1);
 		}
-		return handleYear(val);
+		return handleYear(name, val);
+	};
+
+	const selectYear = year => {
+		return handleYear(name, year);
 	};
 
 	const clearDate = () => {
-		handleYear("");
+		handleYear(name, "");
 	};
 
 	useEffect(() => {
@@ -89,7 +90,7 @@ const YearPicker = ({
 				<YearPickerCalendar
 					currentYear={val}
 					yearRange={yearRange}
-					handleYear={handleYear}
+					handleYear={selectYear}
 					getNextYear={getNextYear}
 					getPrevYear={getPrevYear}
 					closeCalendar={() => setShowCalendar(false)}
@@ -113,6 +114,6 @@ YearPicker.propTypes = {
 		PropTypes.string.isRequired
 	]),
 	handleYear: PropTypes.func.isRequired,
-	startYear: PropTypes.number.isRequired,
-	endYear: PropTypes.number.isRequired
+	startYear: PropTypes.number,
+	endYear: PropTypes.number
 };

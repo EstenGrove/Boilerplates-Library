@@ -15,7 +15,7 @@ const OptionsMenuSM = ({
 	handleSelectionByKey,
 	handleFocus,
 	hasFocus,
-	options = []
+	options = [],
 }) => {
 	const menuRef = useRef();
 	const { isOutside } = useOutsideClick(menuRef);
@@ -41,7 +41,7 @@ const OptionsMenuSM = ({
 						<li
 							tabIndex={0}
 							key={option}
-							onClick={e => {
+							onClick={(e) => {
 								e.stopPropagation();
 								e.nativeEvent.stopPropagation();
 								handleSelection(name, option);
@@ -71,7 +71,8 @@ const CustomDropdownSM = ({
 	selection,
 	setSelection,
 	inputSize = 15,
-	customStyles = {}
+	customStyles = {},
+	isDisabled = false,
 }) => {
 	const inputRef = useRef();
 	const [showOptions, setShowOptions] = useState(false); // menu options
@@ -86,21 +87,21 @@ const CustomDropdownSM = ({
 
 	// sets active focused item
 	// allows custom focus styles to be applied
-	const handleFocus = (e, option) => {
+	const handleFocus = (option) => {
 		setHasFocus(option);
 	};
 
 	// handles checking for a match
 	// setting the selection when an option is focused and the
 	// "ENTER" key is pressed
-	const handleSelectionByKey = e => {
+	const handleSelectionByKey = (e) => {
 		const currentEl = e.target.textContent;
 
-		const hasMatch = val => {
+		const hasMatch = (val) => {
 			return listOptions.includes(val);
 		};
 		if (hasMatch(currentEl) && e.key === ENTER) {
-			return handleSelection(currentEl);
+			return handleSelection(name, currentEl);
 		}
 		if (e.key === ESCAPE) {
 			return setShowOptions(false);
@@ -109,17 +110,23 @@ const CustomDropdownSM = ({
 	};
 
 	// handles "onChange" search
-	const handleSearch = e => {
+	const handleSearch = (e) => {
 		const { value } = e.target;
-		setSearchVal(value);
-		setListOptions([
-			...options.filter(x => x.toLowerCase().includes(value.toLowerCase()))
-		]);
+		if (!isEmptyVal(selection)) {
+			clearSelection();
+			setSearchVal(value);
+			return setListOptions([
+				...options.filter((x) => x.toLowerCase().includes(value.toLowerCase())),
+			]);
+		} else {
+			setSearchVal(value);
+			setListOptions([
+				...options.filter((x) => x.toLowerCase().includes(value.toLowerCase())),
+			]);
+		}
 	};
 
-	const clearSelection = e => {
-		e.stopPropagation();
-		e.nativeEvent.stopPropagation();
+	const clearSelection = (e) => {
 		handleSelection(name, "");
 		handleFocus("");
 	};
@@ -153,7 +160,7 @@ const CustomDropdownSM = ({
 					id={id}
 					placeholder={placeholder}
 					onChange={handleSearch}
-					onClick={e => {
+					onClick={(e) => {
 						e.stopPropagation();
 						e.nativeEvent.stopPropagation();
 						setShowOptions(true);
@@ -163,6 +170,7 @@ const CustomDropdownSM = ({
 					autoComplete="off"
 					size={inputSize}
 					style={customStyles}
+					disabled={isDisabled}
 				/>
 				{showOptions && (
 					<OptionsMenuSM
@@ -180,8 +188,8 @@ const CustomDropdownSM = ({
 					className={styles.CustomDropdownSM_closeIcon}
 					onClick={
 						!isEmptyVal(selection)
-							? e => clearSelection(e)
-							: e => {
+							? (e) => clearSelection(e)
+							: (e) => {
 									e.stopPropagation();
 									e.nativeEvent.stopPropagation();
 									setShowOptions(true);
@@ -202,7 +210,7 @@ const CustomDropdownSM = ({
 export default CustomDropdownSM;
 
 CustomDropdownSM.defaultProps = {
-	options: []
+	options: [],
 };
 
 CustomDropdownSM.propTypes = {
@@ -211,14 +219,20 @@ CustomDropdownSM.propTypes = {
 	label: PropTypes.string,
 	options: PropTypes.array,
 	selection: PropTypes.string.isRequired, // input state value
-	setSelection: PropTypes.func.isRequired // state setter for input
+	setSelection: PropTypes.func.isRequired, // state setter for input
 };
 
 OptionsMenuSM.defaultProps = {
-	options: []
+	options: [],
+	isDisabled: false,
 };
 OptionsMenuSM.defaultProps = {
+	name: PropTypes.string.isRequired,
 	closeHandler: PropTypes.func.isRequired, // state setter for closing the menu options dropdown
 	handleSelection: PropTypes.func.isRequired, // "onClick" handler for value selection
-	options: PropTypes.array.isRequired // menu options
+	handleSelectionKey: PropTypes.func.isRequired, // "onClick" handler for value selection
+	handleFocus: PropTypes.func.isRequired, // "onClick" handler for value selection
+	hasFocus: PropTypes.bool.isRequired, // "onClick" handler for value selection
+	options: PropTypes.array.isRequired, // menu options
+	isDisabled: PropTypes.bool,
 };

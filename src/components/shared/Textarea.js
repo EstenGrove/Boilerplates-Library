@@ -16,7 +16,7 @@ const Textarea = ({
 	disabled = false,
 	addRequiredFlag = false,
 	enableCharCount = false,
-	customStyles = {}
+	customStyles = {},
 }) => {
 	const [charCount, setCharCount] = useState(0);
 
@@ -69,7 +69,7 @@ Textarea.defaultProps = {
 	disabled: false,
 	addRequiredFlag: false,
 	enableCharCount: false,
-	customStyles: {}
+	customStyles: {},
 };
 
 Textarea.propTypes = {
@@ -86,5 +86,5 @@ Textarea.propTypes = {
 	disabled: PropTypes.bool,
 	addRequiredFlag: PropTypes.bool,
 	enableCharCount: PropTypes.bool,
-	customStyles: PropTypes.object
+	customStyles: PropTypes.object,
 };

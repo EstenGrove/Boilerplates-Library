@@ -10,7 +10,7 @@ const ICONSIZES = {
 	SM: styles.AlertIcon_icon_SM,
 	MD: styles.AlertIcon_icon_MD,
 	LG: styles.AlertIcon_icon_LG,
-	XLG: styles.AlertIcon_icon_XLG
+	XLG: styles.AlertIcon_icon_XLG,
 };
 // <Alert/> HELPERS
 const SIZES = {
@@ -18,7 +18,7 @@ const SIZES = {
 	SM: styles.Alert_SM,
 	MD: styles.Alert_MD,
 	LG: styles.Alert_LG,
-	XLG: styles.Alert_XLG
+	XLG: styles.Alert_XLG,
 };
 // <AlertHeadings/> HELPERS
 const HEADINGS = {
@@ -26,14 +26,14 @@ const HEADINGS = {
 	SM: styles.AlertHeadings_heading_SM,
 	MD: styles.AlertHeadings_heading_MD,
 	LG: styles.AlertHeadings_heading_LG,
-	XLG: styles.AlertHeadings_heading_XLG
+	XLG: styles.AlertHeadings_heading_XLG,
 };
 const SUBHEADINGS = {
 	XSM: styles.AlertHeadings_subheading_XSM,
 	SM: styles.AlertHeadings_subheading_SM,
 	MD: styles.AlertHeadings_subheading_MD,
 	LG: styles.AlertHeadings_subheading_LG,
-	XLG: styles.AlertHeadings_subheading_XLG
+	XLG: styles.AlertHeadings_subheading_XLG,
 };
 
 const AlertHeadings = ({ heading, subheading, text, size = "MD" }) => {
@@ -62,7 +62,7 @@ const Alert = ({
 	text,
 	size = "MD",
 	type = "ERROR",
-	closeHandler
+	closeHandler,
 }) => {
 	return (
 		<aside className={SIZES[size]}>
@@ -88,33 +88,33 @@ const Alert = ({
 
 // ALERT PROPTYPES
 Alert.defaultProps = {
-	type: "INFO"
+	type: "INFO",
 };
 Alert.propTypes = {
 	heading: PropTypes.string.isRequired,
 	subheading: PropTypes.string,
 	text: PropTypes.string,
-	type: PropTypes.string
+	type: PropTypes.string,
 };
 
 // ALERTHEADINGS PROPTYPES
 AlertHeadings.defaultProps = {
-	size: "MD"
+	size: "MD",
 };
 AlertHeadings.propTypes = {
 	heading: PropTypes.string.isRequired,
 	subheading: PropTypes.string,
-	text: PropTypes.string
+	text: PropTypes.string,
 };
 
 // ALERTICON PROPTYPES
 AlertIcon.defaultProps = {
 	size: "MD",
-	type: "SUCCESS"
+	type: "SUCCESS",
 };
 AlertIcon.propTypes = {
 	type: PropTypes.string,
-	size: PropTypes.string
+	size: PropTypes.string,
 };
 
 // EXPORTS //

@@ -7,6 +7,9 @@ import styles from "../../css/shared/DatePickerSM.module.scss";
 import sprite from "../../assets/icon-bar.svg";
 import DatePickerCalendarSM from "./DatePickerCalendarSM";
 
+// ##TODOS:
+// - Added 'Range Restriction' support
+
 const DatePickerSM = ({
 	label,
 	name,
@@ -14,23 +17,23 @@ const DatePickerSM = ({
 	placeholder,
 	val,
 	handleDate,
-	selectedDate,
-	focusMode = false
+	focusMode = false,
+	restrictions = {},
 }) => {
 	const { globalDates, getNextMonth, getPrevMonth, jumpToToday } = useDates();
 	const { today, month, year } = globalDates;
 	const [showCalendar, setShowCalendar] = useState(false);
 
-	const selectDay = day => {
-		handleDate(format(day, "MM/DD/YYYY"));
+	const selectDay = (day) => {
+		handleDate(name, format(day, "MM/DD/YYYY"));
 	};
 
 	const clearDate = () => {
-		handleDate("");
+		handleDate(name, "");
 	};
 
 	const jumpToTodayHandler = () => {
-		handleDate(format(today, "MM/DD/YYYY"));
+		handleDate(name, format(today, "MM/DD/YYYY"));
 		jumpToToday();
 	};
 
@@ -81,6 +84,7 @@ const DatePickerSM = ({
 
 			{showCalendar && (
 				<DatePickerCalendarSM
+					name={name}
 					today={today}
 					currentYear={year}
 					currentMonth={month.monthStart}
@@ -92,6 +96,7 @@ const DatePickerSM = ({
 					jumpToToday={jumpToTodayHandler}
 					closeCalendar={() => setShowCalendar(false)}
 					focusMode={focusMode}
+					restrictions={restrictions}
 				/>
 			)}
 		</article>
@@ -100,11 +105,23 @@ const DatePickerSM = ({
 
 export default DatePickerSM;
 
-DatePickerSM.defaultProps = {};
+DatePickerSM.defaultProps = {
+	focusMode: false,
+	restrictions: {
+		isActive: false,
+		rangeStart: "",
+		rangeEnd: "",
+	},
+};
 
 DatePickerSM.propTypes = {
 	label: PropTypes.string,
 	name: PropTypes.string.isRequired,
 	id: PropTypes.string.isRequired,
-	handleDate: PropTypes.func.isRequired
+	val: PropTypes.oneOfType([
+		PropTypes.string,
+		PropTypes.number,
+		PropTypes.instanceOf(Date),
+	]),
+	handleDate: PropTypes.func.isRequired,
 };

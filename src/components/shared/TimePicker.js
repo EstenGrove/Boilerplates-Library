@@ -6,6 +6,8 @@ import styles from "../../css/shared/TimePicker.module.scss";
 import sprite from "../../assets/icon-bar.svg";
 import TimePickerCalendar from "./TimePickerCalendar";
 
+// PROBABLY NEEDS TO BE UPDATED FOR "EVENT-OBJECT" METHOD OF SETTER
+
 const TimePicker = ({
 	label,
 	name,
@@ -15,59 +17,67 @@ const TimePicker = ({
 	handleTime,
 	hourRangeStart = 1,
 	hourRangeEnd = 12,
-	minsIncrement = 1
+	minsIncrement = 1,
+	enableSecs = true,
 }) => {
 	const [showCalendar, setShowCalendar] = useState(false);
 	const [timePortions, setTimePortions] = useState({
 		hour: "00",
 		mins: "00",
 		secs: "00",
-		timeOfDay: "PM"
+		timeOfDay: "PM",
 	});
 
 	const timeHandler = ({ type, val }) => {
 		switch (type) {
 			case "HOUR": {
 				const { mins, secs, timeOfDay } = timePortions;
-				const time = `${formatNum(val)}:${mins}:${secs} ${timeOfDay}`;
+				const time = enableSecs
+					? `${formatNum(val)}:${mins}:${secs} ${timeOfDay}`
+					: `${formatNum(val)}:${mins} ${timeOfDay}`;
+
 				setTimePortions({
 					...timePortions,
-					hour: formatNum(val)
+					hour: formatNum(val),
 				});
-				return handleTime(formatNum(time));
+				return handleTime(name, formatNum(time));
 			}
 			case "MINS": {
 				const { hour, secs, timeOfDay } = timePortions;
-				const time = `${formatNum(hour)}:${formatNum(
-					val
-				)}:${secs} ${timeOfDay}`;
+				const time = enableSecs
+					? `${formatNum(hour)}:${formatNum(val)}:${secs} ${timeOfDay}`
+					: `${formatNum(hour)}:${formatNum(val)} ${timeOfDay}`;
+
 				setTimePortions({
 					...timePortions,
-					mins: formatNum(val)
+					mins: formatNum(val),
 				});
-				return handleTime(formatNum(time));
+				return handleTime(name, formatNum(time));
 			}
 			case "SECS": {
 				const { hour, mins, timeOfDay } = timePortions;
-				const time = `${formatNum(hour)}:${formatNum(mins)}:${formatNum(
-					val
-				)} ${timeOfDay}`;
+				const time = enableSecs
+					? `${formatNum(hour)}:${formatNum(mins)}:${formatNum(
+							val
+					  )} ${timeOfDay}`
+					: `${formatNum(hour)}:${formatNum(mins)} ${timeOfDay}`;
+
 				setTimePortions({
 					...timePortions,
-					secs: formatNum(val)
+					secs: formatNum(val),
 				});
-				return handleTime(formatNum(time));
+				return handleTime(name, formatNum(time));
 			}
 			case "TIME_OF_DAY": {
 				const { hour, mins, secs } = timePortions;
-				const time = `${formatNum(hour)}:${formatNum(mins)}:${formatNum(
-					secs
-				)} ${val}`;
+				const time = enableSecs
+					? `${formatNum(hour)}:${formatNum(mins)}:${formatNum(secs)} ${val}`
+					: `${formatNum(hour)}:${formatNum(mins)} ${val}`;
 				setTimePortions({
 					...timePortions,
-					timeOfDay: val
+					timeOfDay: val,
 				});
-				return handleTime(formatNum(time));
+				return handleTime(name, formatNum(time));
 			}
 			default:
 				break;
@@ -79,9 +89,9 @@ const TimePicker = ({
 			hour: "00",
 			mins: "00",
 			secs: "00",
-			timeOfDay: "AM"
+			timeOfDay: "AM",
 		});
-		handleTime("");
+		handleTime(name, "");
 	};
 
 	return (
@@ -104,7 +114,9 @@ const TimePicker = ({
 
 				<svg
 					className={styles.TimePicker_inputContainer_icon}
-					onClick={isEmptyVal(val) ? null : () => clearTime()}
+					onClick={
+						isEmptyVal(val) ? () => setShowCalendar(true) : () => clearTime()
+					}
 				>
 					<use
 						xlinkHref={`${sprite}#icon-${
@@ -122,6 +134,7 @@ const TimePicker = ({
 					times={timePortions}
 					handleTime={timeHandler}
 					closeCalendar={() => setShowCalendar(false)}
+					enableSecs={enableSecs}
 				/>
 			)}
 		</article>
@@ -130,7 +143,12 @@ const TimePicker = ({
 
 export default TimePicker;
 
-TimePicker.defaultProps = {};
+TimePicker.defaultProps = {
+	hourRangeStart: 1,
+	hourRangeEnd: 12,
+	minsIncrement: 1,
+	enableSecs: true,
+};
 
 TimePicker.propTypes = {
 	label: PropTypes.string,
@@ -139,9 +157,10 @@ TimePicker.propTypes = {
 	placeholder: PropTypes.string,
 	val: PropTypes.oneOfType([
 		PropTypes.string.isRequired,
-		PropTypes.number.isRequired
+		PropTypes.number.isRequired,
 	]),
 	handleTime: PropTypes.func.isRequired,
 	hourRangeStart: PropTypes.number,
-	hourRangeEnd: PropTypes.number
+	hourRangeEnd: PropTypes.number,
+	enableSecs: PropTypes.bool.isRequired,
 };

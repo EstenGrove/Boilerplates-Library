@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "../../css/shared/Placeholder.module.scss";
+import { PropTypes } from "prop-types";
 import { main } from "../../helpers/utils_styles";
 
 const sizes = {
@@ -12,10 +13,17 @@ const sizes = {
 
 // used for error message and other placeholder messages
 
-const Placeholder = ({ size = "MD", color = "red", msg = "", children }) => {
+const Placeholder = ({
+	size = "MD",
+	color = "red",
+	msg = "",
+	customStyles = {},
+	children
+}) => {
 	const msgStyles = {
 		fontSize: sizes[size],
-		color: main[color]
+		color: main[color],
+		...customStyles
 	};
 
 	return (
@@ -29,3 +37,13 @@ const Placeholder = ({ size = "MD", color = "red", msg = "", children }) => {
 };
 
 export default Placeholder;
+
+Placeholder.defaultProps = {
+	customStyles: {}
+};
+Placeholder.propTypes = {
+	size: PropTypes.string,
+	msg: PropTypes.string.isRequired,
+	customStyles: PropTypes.object,
+	children: PropTypes.any
+};

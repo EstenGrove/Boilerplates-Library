@@ -1,12 +1,12 @@
 import React from "react";
-import styles from "../../css/shared/TextInput.module.scss";
+import styles from "../../css/shared/NumberInput.module.scss";
 import { PropTypes } from "prop-types";
 
-const TextInput = ({
+const NumberInput = ({
 	label,
 	name,
 	id,
-	placeholder,
+	placeholder = "Only accepts numbers...",
 	required = false,
 	val,
 	handleChange,
@@ -15,25 +15,32 @@ const TextInput = ({
 	handleReset,
 	autoComplete = "off",
 	addRequiredFlag = false,
-	customStyles = {}
+	customStyles = {},
 }) => {
+	// validates number & handles onchange
+	const changeHandler = (e) => {
+		const { value } = e.target;
+		if (isNaN(value)) return;
+		return handleChange(e);
+	};
+
 	return (
-		<div className={styles.TextInput}>
-			<label htmlFor={id} className={styles.TextInput_label}>
+		<div className={styles.NumberInput}>
+			<label htmlFor={id} className={styles.NumberInput_label}>
 				{label}
 				{addRequiredFlag && (
-					<div className={styles.TextInput_requiredFlag}>*</div>
+					<div className={styles.NumberInput_requiredFlag}>*</div>
 				)}
 			</label>
 			<input
 				type="text"
 				name={name}
 				id={id}
-				className={styles.TextInput_input}
+				className={styles.NumberInput_input}
 				placeholder={placeholder}
 				required={required}
 				value={val}
-				onChange={handleChange}
+				onChange={changeHandler}
 				onBlur={handleBlur}
 				onFocus={handleFocus}
 				onReset={handleReset}
@@ -44,16 +51,16 @@ const TextInput = ({
 	);
 };
 
-export default TextInput;
+export default NumberInput;
 
 // #PropTypes
-TextInput.defaultProps = {
+NumberInput.defaultProps = {
 	required: false,
 	addRequiredFlag: false,
-	customStyles: {}
+	customStyles: {},
 };
 
-TextInput.propTypes = {
+NumberInput.propTypes = {
 	label: PropTypes.string,
 	name: PropTypes.string.isRequired,
 	id: PropTypes.string,
@@ -65,5 +72,5 @@ TextInput.propTypes = {
 	handleBlur: PropTypes.func,
 	handleReset: PropTypes.func,
 	addRequiredFlag: PropTypes.bool,
-	customStyles: PropTypes.object
+	customStyles: PropTypes.object,
 };

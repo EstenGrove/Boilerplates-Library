@@ -14,7 +14,8 @@ const QuarterPickerCalendar = ({
 	getNextQuarter,
 	handleQuarter,
 	jumpToToday,
-	closeCalendar
+	closeCalendar,
+	focusMode
 }) => {
 	const quarterCalRef = useRef();
 	const { isOutside } = useOutsideClick(quarterCalRef);
@@ -35,7 +36,14 @@ const QuarterPickerCalendar = ({
 	}, [closeCalendar, isOutside]);
 
 	return (
-		<article className={styles.QuarterPickerCalendar} ref={quarterCalRef}>
+		<article
+			className={
+				focusMode
+					? styles.QuarterPickerCalendar_focusMode
+					: styles.QuarterPickerCalendar
+			}
+			ref={quarterCalRef}
+		>
 			<section className={styles.QuarterPickerCalendar_top}>
 				<div className={styles.QuarterPickerCalendar_top_heading}>
 					<h2 className={styles.QuarterPickerCalendar_top_heading_quarter}>

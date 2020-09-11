@@ -1,14 +1,23 @@
 import React, { useRef, useEffect } from "react";
 import { PropTypes } from "prop-types";
 import { useOutsideClick } from "../../utils/useOutsideClick";
-import { format, isSameDay } from "date-fns";
+import { format, isSameDay, isWithinRange } from "date-fns";
 import styles from "../../css/shared/DatePickerCalendarSM.module.scss";
 import sprite from "../../assets/carets-arrows.svg";
 import DatePickerDaySM from "./DatePickerDaySM";
 
+// ##TODOS:
+// - Added 'Range Restriction' support ✓
+
 const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
+// checks if date is within 'non-restricted' range
+const isRestricted = (targetDate, rangeStart, rangeEnd) => {
+	return !isWithinRange(targetDate, rangeStart, rangeEnd);
+};
+
 const DatePickerCalendarSM = ({
+	name,
 	today,
 	currentYear,
 	currentMonth,
@@ -20,7 +29,8 @@ const DatePickerCalendarSM = ({
 	selectedDate,
 	showDays = false,
 	closeCalendar,
-	focusMode
+	focusMode,
+	restrictions = {},
 }) => {
 	const calendarRef = useRef();
 	const { isOutside } = useOutsideClick(calendarRef);
@@ -39,9 +49,7 @@ const DatePickerCalendarSM = ({
 		};
 	}, [isOutside, closeCalendar]);
 
-	console.group("<DatePickerCalendarSM/>");
-	console.log("selectedDate", selectedDate);
-	console.groupEnd();
+	const { isActive, rangeStart, rangeEnd } = restrictions;
 
 	return (
 		<article
@@ -73,7 +81,7 @@ const DatePickerCalendarSM = ({
 			</nav>
 			{showDays && (
 				<section className={styles.DatePickerCalendarSM_weekDays}>
-					{days.map(day => (
+					{days.map((day) => (
 						<span key={day}>{day}</span>
 					))}
 				</section>
@@ -90,6 +98,9 @@ const DatePickerCalendarSM = ({
 							key={`${day}_${index}`}
 							day={day}
 							selectDay={() => selectDay(day)}
+							isRestricted={
+								!isActive ? false : isRestricted(day, rangeStart, rangeEnd)
+							}
 						/>
 					))}
 			</section>
@@ -109,10 +120,16 @@ const DatePickerCalendarSM = ({
 export default DatePickerCalendarSM;
 
 DatePickerCalendarSM.defaultProps = {
-	showDays: false
+	showDays: false,
+	restrictions: {
+		isActive: false,
+		rangeStart: "",
+		rangeEnd: "",
+	},
 };
 
 DatePickerCalendarSM.propTypes = {
+	name: PropTypes.string.isRequired,
 	today: PropTypes.instanceOf(Date),
 	currentYear: PropTypes.number, // ie. 2020
 	currentMonth: PropTypes.instanceOf(Date), // ie. Sat. Feb 01 2020...
@@ -122,5 +139,6 @@ DatePickerCalendarSM.propTypes = {
 	jumpToToday: PropTypes.func,
 	selectDay: PropTypes.func,
 	showDays: PropTypes.bool,
-	selectedDate: PropTypes.oneOfType([PropTypes.string]) // should be the selected date formatted (MM/DD/YYYY)
+	selectedDate: PropTypes.oneOfType([PropTypes.string]), // should be the selected date formatted (MM/DD/YYYY)
+	restrictions: PropTypes.object,
 };

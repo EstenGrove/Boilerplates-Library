@@ -15,7 +15,8 @@ const MonthPickerCalendar = ({
 	getPrevMonth,
 	handleMonth,
 	jumpToToday,
-	closeCalendar
+	closeCalendar,
+	focusMode
 }) => {
 	const monthCalRef = useRef();
 	const { isOutside } = useOutsideClick(monthCalRef);
@@ -36,7 +37,14 @@ const MonthPickerCalendar = ({
 	}, [closeCalendar, isOutside]);
 
 	return (
-		<aside className={styles.MonthPickerCalendar} ref={monthCalRef}>
+		<aside
+			className={
+				focusMode
+					? styles.MonthPickerCalendar_focusMode
+					: styles.MonthPickerCalendar
+			}
+			ref={monthCalRef}
+		>
 			<section className={styles.MonthPickerCalendar_top}>
 				<div className={styles.MonthPickerCalendar_top_heading}>
 					<h2 className={styles.MonthPickerCalendar_top_heading_month}>

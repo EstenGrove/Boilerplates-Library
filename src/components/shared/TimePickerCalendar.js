@@ -20,7 +20,9 @@ const TimePickerCalendar = ({
 	minsIncrement = 0,
 	times = {},
 	handleTime,
-	closeCalendar
+	closeCalendar,
+	enableSecs = true,
+	focusMode = false,
 }) => {
 	const calendarRef = useRef();
 	const { isOutside } = useOutsideClick(calendarRef);
@@ -44,7 +46,14 @@ const TimePickerCalendar = ({
 	}, [closeCalendar, isOutside]);
 
 	return (
-		<section className={styles.TimePickerCalendar} ref={calendarRef}>
+		<section
+			className={
+				focusMode
+					? styles.TimePickerCalendar_focusMode
+					: styles.TimePickerCalendar
+			}
+			ref={calendarRef}
+		>
 			{/* START - HOURS */}
 			<TimePickerColumn key="HOURS" type="HOURS">
 				{hours.map((hr, i) => (
@@ -73,18 +82,20 @@ const TimePickerCalendar = ({
 			</TimePickerColumn>
 			{/* END - MINS */}
 
-			{/* START - SECS */}
-			<TimePickerColumn key="SECS" type="SECS">
-				{secs.map((sec, i) => (
-					<TimePickerOption
-						key={`SEC_${sec}`}
-						type="SEC"
-						time={sec}
-						isSelected={formatNum(times.secs) === formatNum(sec)}
-						handleTime={() => handleTime({ type: "SECS", val: sec })}
-					/>
-				))}
-			</TimePickerColumn>
+			{/* START - SECS: "ON" BY DEFAULT; CAN TOGGLE "OFF" VIA PROPS*/}
+			{enableSecs && (
+				<TimePickerColumn key="SECS" type="SECS">
+					{secs.map((sec, i) => (
+						<TimePickerOption
+							key={`SEC_${sec}`}
+							type="SEC"
+							time={sec}
+							isSelected={formatNum(times.secs) === formatNum(sec)}
+							handleTime={() => handleTime({ type: "SECS", val: sec })}
+						/>
+					))}
+				</TimePickerColumn>
+			)}
 			{/* END - SECS */}
 
 			{/* START - TIME OF DAY */}
@@ -109,7 +120,14 @@ const TimePickerCalendar = ({
 
 export default TimePickerCalendar;
 
-TimePickerCalendar.defaultProps = {};
+TimePickerCalendar.defaultProps = {
+	hourRangeStart: 0,
+	hourRangeEnd: 0,
+	minsIncrement: 0,
+	times: {},
+	focusMode: false,
+	enableSecs: true,
+};
 
 TimePickerCalendar.propTypes = {
 	hourRangeStart: PropTypes.number,
@@ -117,5 +135,5 @@ TimePickerCalendar.propTypes = {
 	minsIncrement: PropTypes.number,
 	times: PropTypes.object.isRequired,
 	handleTime: PropTypes.func.isRequired,
-	closeCalendar: PropTypes.func.isRequired
+	closeCalendar: PropTypes.func.isRequired,
 };

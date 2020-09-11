@@ -46,13 +46,19 @@ const YearPickerCalendar = ({
 				<div className={styles.YearPickerCalendar_top_controls}>
 					<svg
 						className={styles.YearPickerCalendar_top_controls_icon}
-						onClick={getPrevYear}
+						onClick={e => {
+							e.stopPropagation();
+							getPrevYear();
+						}}
 					>
 						<use xlinkHref={`${sprite}#icon-chevron-small-down`} />
 					</svg>
 					<svg
 						className={styles.YearPickerCalendar_top_controls_icon}
-						onClick={getNextYear}
+						onClick={e => {
+							e.stopPropagation();
+							getNextYear();
+						}}
 					>
 						<use xlinkHref={`${sprite}#icon-chevron-small-up`} />
 					</svg>
