@@ -1,38 +1,138 @@
+/******************************************
+*  Author : Esten Grove
+*  Created On : Mon Dec 14 2020
+*  File : styles.css
+*******************************************/
+
 :root {
-	--mainPurple: hsla(242, 89%, 64%, 1);
-	--mainRed: hsla(352, 70%, 50%, 1);
-	--mainGreen: hsla(170, 100%, 39%, 1);
-	--mainBlue: hsla(197, 100%, 50%, 1);
-	--mainCharcoal: hsla(268, 10%, 30%, 1);
-	--mainYellow: hsla(60, 92%, 71%, 1);
-	--mainOrange: hsla(39, 100%, 70%, 1);
-	--mainBlackBlue: hsla(220, 18%, 20%, 1);
-	--altPurple: hsla(240, 68%, 62%, 1);
+	/* PURPLE SHADES */
+	--purple50: rgb(245, 243, 255);
+	--purple100: rgb(237, 233, 254);
+	--purple200: rgb(221, 214, 254);
+	--purple300: rgb(196, 181, 253);
+	--purple400: rgb(167, 139, 250);
+	--purple500: rgb(139, 92, 246);
+	--purple600: rgb(124, 58, 237);
+	--purple700: rgb(109, 40, 217);
+	--purple800: rgb(91, 33, 182);
+	--purple900: rgb(76, 29, 149);
+	/* BLUE SHADES */
+	--blue50: rgb(239, 246, 255);
+	--blue100: rgb(219, 234, 254);
+	--blue200: rgb(191, 219, 254);
+	--blue300: rgb(147, 197, 253);
+	--blue400: rgb(96, 165, 250);
+	--blue500: rgb(59, 130, 246);
+	--blue600: rgb(37, 99, 235);
+	--blue700: rgb(29, 78, 216);
+	--blue800: rgb(30, 64, 175);
+	--blue900: rgb(30, 58, 138);
+	/* RED SHADES */
+	--red50: rgb(254, 242, 242);
+	--red100: rgb(254, 226, 226);
+	--red200: rgb(254, 202, 202);
+	--red300: rgb(252, 165, 165);
+	--red400: rgb(248, 113, 113);
+	--red500: rgb(239, 68, 68);
+	--red600: rgb(220, 38, 38);
+	--red700: rgb(185, 28, 28);
+	--red800: rgb(153, 27, 27);
+	--red900: rgb(127, 29, 29);
+	/* PINK SHADES */
+	--pink100: rgb(255, 245, 247);
+	--pink200: rgb(254, 215, 226);
+	--pink300: rgb(251, 182, 206);
+	--pink400: rgb(246, 135, 179);
+	--pink500: rgb(237, 100, 166);
+	--pink600: rgb(213, 63, 140);
+	--pink700: rgb(184, 50, 128);
+	--pink800: rgb(151, 38, 109);
+	--pink900: rgb(112, 36, 89);
+	/* GREEN SHADES */
+	--green50: rgb(236, 253, 245);
+	--green100: rgb(209, 250, 229);
+	--green200: rgb(167, 243, 208);
+	--green300: rgb(110, 231, 183);
+	--green400: rgb(52, 211, 153);
+	--green500: rgb(16, 185, 129);
+	--green600: rgb(5, 150, 105);
+	--green700: rgb(4, 120, 87);
+	--green800: rgb(6, 95, 70);
+	--green900: rgb(6, 78, 59);
+	/* YELLOW SHADES */
+	--yellow50: rgb(255, 251, 235);
+	--yellow100: rgb(254, 243, 199);
+	--yellow200: rgb(253, 230, 138);
+	--yellow300: rgb(252, 211, 77);
+	--yellow400: rgb(251, 191, 36);
+	--yellow500: rgb(245, 158, 11);
+	--yellow600: rgb(217, 119, 6);
+	--yellow700: rgb(180, 83, 9);
+	--yellow800: rgb(146, 64, 14);
+	--yellow900: rgb(120, 53, 15);
+	/* ORANGE SHADES */
+	--orange50: rgb(255, 247, 237);
+	--orange100: rgb(255, 237, 213);
+	--orange200: rgb(254, 215, 170);
+	--orange300: rgb(253, 186, 116);
+	--orange400: rgb(251, 146, 60);
+	--orange500: rgb(249, 115, 22);
+	--orange600: rgb(234, 88, 12);
+	--orange700: rgb(194, 65, 12);
+	--orange800: rgb(154, 52, 18);
+	--orange900: rgb(124, 45, 18);
+	/* GREY SHADES */
+	--grey50: rgb(250, 250, 250);
+	--grey100: rgb(244, 244, 245);
+	--grey200: rgb(228, 228, 231);
+	--grey300: rgb(212, 212, 216);
+	--grey400: rgb(161, 161, 170);
+	--grey500: rgb(113, 113, 122);
+	--grey600: rgb(82, 82, 91);
+	--grey700: rgb(63, 63, 70);
+	--grey800: rgb(39, 39, 42);
+	--grey900: rgb(24, 24, 27);
+	/* BLUE GREY SHADES */
+	--blueGrey50: rgb(248, 250, 252);
+	--blueGrey100: rgb(241, 245, 249);
+	--blueGrey200: rgb(226, 232, 240);
+	--blueGrey300: rgb(203, 213, 225);
+	--blueGrey400: rgb(148, 163, 184);
+	--blueGrey500: rgb(100, 116, 139);
+	--blueGrey600: rgb(71, 85, 105);
+	--blueGrey700: rgb(51, 65, 85);
+	--blueGrey800: rgb(30, 41, 59);
+	--blueGrey900: rgb(15, 23, 42);
+	/* TEAL SHADES */
+	--teal100: rgb(230, 255, 250);
+	--teal200: rgb(178, 245, 234);
+	--teal300: rgb(129, 230, 217);
+	--teal400: rgb(79, 209, 197);
+	--teal500: rgb(56, 178, 172);
+	--teal600: rgb(49, 151, 149);
+	--teal700: rgb(44, 122, 123);
+	--teal800: rgb(40, 94, 97);
+	--teal900: rgb(35, 78, 82);
 
-	--flatPurple: hsla(222, 89%, 64%, 0.3);
-	--flatBlue: hsla(197, 100%, 50%, 0.3);
-	--flatAltPurple: hsla(259, 77%, 64%, 0.4);
-	--flatGreen: hsla(144, 69%, 63%, 0.4);
-	--flatSmoke: hsla(268, 10%, 30%, 0.2);
-	--flatRed: hsla(330, 100%, 41%, 0.22);
-	--flatYellow: hsla(60, 92%, 71%, 0.7);
-	--flatOrange: hsla(11, 100%, 75%, 0.4);
+	/* FOCUS-OUTLINES */
+	--purpleOutline: 0 0 0 2px hsla(240, 100%, 50%, 0.3);
+	--redOutline: 0 0 0 2px var(--red400);
+	--greenOutline: 0 0 0 2px var(--green400);
+	--blueOutline: 0 0 0 2px var(--blue400);
+	--yellowOutline: 0 0 0 2px var(--yellow400);
 
-	--lightShadow: 0px 1px 7px -1px rgba(0, 0, 0, 0.25);
-	--mediumShadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-	--highShadow: 3px 4px 16px -1px rgba(0, 0, 0, 0.75);
-	--subtleShadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-	--medSubtleShadow: 0 3px 6px rgba(0, 0, 0, 0.16),
+	/* BOX-SHADOWS */
+	--shadowLight: 0px 1px 7px -1px rgba(0, 0, 0, 0.25);
+	--shadowMedium: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+	--shadowHeavy: 3px 4px 16px -1px rgba(0, 0, 0, 0.75);
+	--shadowSubtle: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+	--shadowSubtleMed: 0 3px 6px rgba(0, 0, 0, 0.16),
 		0 3px 6px rgba(0, 0, 0, 0.23);
-	--pronouncedShadow: 0 14px 28px rgba(0, 0, 0, 0.25),
+	--shadowPronounced: 0 14px 28px rgba(0, 0, 0, 0.25),
 		0 10px 10px rgba(0, 0, 0, 0.22);
-	--raisedShadow: 0 19px 38px rgba(0, 0, 0, 0.3),
-		0 15px 12px rgba(0, 0, 0, 0.22);
-	--insetShadow: inset 0px 0px 10px rgba(0, 0, 0, 0.1);
-	--mainOutline: 0 0 0 2px hsla(240, 100%, 50%, 0.3);
-	--subtleBottomShadow: 0 4px 2px -2px rgba(0, 0, 0, 0.1);
+	--shadowInset: inset 0px 0px 10px rgba(0, 0, 0, 0.1);
+	--shadowFocus: 2px 9px 217px 34px rgba(0, 0, 0, 0.52);
 }
-/* ----- USAGE:  background-color: var(--mainPurple) ----- */
 
 *,
 *::after,
@@ -46,7 +146,6 @@ body {
 	margin: 0;
 	padding: 2rem;
 	background-color: #eaecef;
-	font-family: "Raleway", "Roboto", sans-serif;
 }
 html {
 	font-size: 62.5%;
@@ -54,31 +153,50 @@ html {
 
 .title {
 	font-size: 3rem;
-	font-weight: 800;
-}
-.subtitle {
-	font-size: 1.8rem;
-	font-weight: 300;
-	margin-bottom: 2rem;
+	font-weight: 600;
+	font-family: var(--primaryFont);
 }
 
 .btn {
-	background-color: var(--mainPurple);
-	color: #ffffff;
-	padding: 1.2rem 2rem;
+	padding: 1rem 1.5rem;
 	border-radius: 0.5rem;
 	border: none;
 	outline: none;
-	font-size: 1.4rem;
+	font-size: 1.5rem;
+	font-weight: 600;
+	background-color: var(--purple700);
+	color: var(--purple100);
+	margin: 0 0.5rem;
 }
 .btn:hover {
 	cursor: pointer;
-	box-shadow: var(--subtleShadow);
+	box-shadow: var(--purpleOutline);
 }
-#output {
-	width: 100%;
-	height: 100%;
-	background-color: #eaecef;
-	border: 1px solid #ccc;
-	padding: 2rem;
+
+.bg-red {
+	background-color: var(--red600);
+}
+.bg-blue {
+	background-color: var(--blue600);
+}
+.bg-green {
+	background-color: var(--green600);
+}
+.bg-purple {
+	background-color: var(--purple600);
+}
+.bg-blackBlue {
+	background-color: var(--blueGrey700);
+}
+.bg-pink {
+	background-color: var(--pink600);
+}
+.bg-yellow {
+	background-color: var(--yellow600);
+}
+.bg-orange {
+	background-color: var(--orange600);
+}
+.bg-teal {
+	background-color: var(--teal600);
 }
